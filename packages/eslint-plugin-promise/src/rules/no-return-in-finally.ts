@@ -30,12 +30,12 @@ function findDirectReturns(
       const val = (node as unknown as Record<string, unknown>)[key];
       if (Array.isArray(val)) {
         for (const child of val) {
-          if (child && typeof child === 'object' && 'type' in child) {
+          if (typeof child === 'object' && child !== null && 'type' in child) {
             visit(child as ESTree.Node);
           }
         }
       }
-      else if (val && typeof val === 'object' && 'type' in val) {
+      else if (typeof val === 'object' && val !== null && 'type' in val) {
         visit(val as ESTree.Node);
       }
     }
@@ -69,9 +69,11 @@ const rule: Rule.RuleModule = {
           return;
         }
 
+        if (node.arguments.length === 0) return;
+
         const callback = node.arguments[0];
         if (
-          !callback
+          callback === undefined
           || (callback.type !== 'FunctionExpression'
             && callback.type !== 'ArrowFunctionExpression')
         ) {

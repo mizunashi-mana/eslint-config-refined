@@ -105,7 +105,7 @@ class CodePathSegmentInfo {
 
   set resolved(identifier: Rule.Node | null) {
     this._resolved = identifier;
-    if (identifier) this.pathInfo.resolvedCount++;
+    if (identifier) this.pathInfo.resolvedCount += 1;
   }
 }
 
@@ -136,7 +136,8 @@ class CodePathInfo {
     promiseCtx: PromiseCodePathContext,
   ): Iterable<ReportData> {
     const targets = [...this.segmentInfos.values()].filter(
-      info => info.resolved,
+      (info): info is CodePathSegmentInfo & { resolved: Rule.Node } =>
+        info.resolved !== null,
     );
     for (const segmentInfo of targets) {
       const result = this._getAlreadyResolvedData(
@@ -145,7 +146,7 @@ class CodePathInfo {
       );
       if (result) {
         yield {
-          node: segmentInfo.resolved!,
+          node: segmentInfo.resolved,
           resolved: result.resolved,
           kind: result.kind,
         };
@@ -166,9 +167,11 @@ class CodePathInfo {
       this._getProcessedSegmentInfo(prev, promiseCtx),
     );
 
-    if (prevSegmentInfos.every(info => info.resolved)) {
+    if (prevSegmentInfos.every(info => info.resolved !== null)) {
+      const first = prevSegmentInfos[0];
+      if (!first?.resolved) return null;
       return {
-        resolved: prevSegmentInfos[0].resolved!,
+        resolved: first.resolved,
         kind: 'certain',
       };
     }
@@ -288,8 +291,9 @@ const rule: Rule.RuleModule = {
     ) {
       if (reported.has(node)) return;
       reported.add(node);
+      const reportNode = node.parent ?? node;
       context.report({
-        node: node.parent!,
+        node: reportNode,
         messageId:
           kind === 'certain'
             ? 'alreadyResolved'
@@ -314,7 +318,9 @@ const rule: Rule.RuleModule = {
     let lastThrowableExpression: Rule.Node | null = null;
 
     function enterPromiseExecutor(node: Rule.Node) {
-      if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent)) { return; }
+      if (node.parent === null || !isPromiseConstructorWithInlineExecutor(node.parent)) {
+        return;
+      }
 
       const resolverReferences
         = new Set<Scope.Variable['references'][0]['identifier']>();
@@ -339,7 +345,9 @@ const rule: Rule.RuleModule = {
     }
 
     function exitPromiseExecutor(node: Rule.Node) {
-      if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent)) { return; }
+      if (node.parent === null || !isPromiseConstructorWithInlineExecutor(node.parent)) {
+        return;
+      }
       resolverReferencesStack.shift();
     }
 
@@ -356,7 +364,8 @@ const rule: Rule.RuleModule = {
         codePathInfoStack.unshift(new CodePathInfo());
       },
       onCodePathEnd() {
-        const codePathInfo = codePathInfoStack.shift()!;
+        const codePathInfo = codePathInfoStack.shift();
+        if (!codePathInfo) return;
         if (codePathInfo.resolvedCount > 1) {
           verifyMultipleResolvedPath(codePathInfo);
         }
@@ -367,10 +376,10 @@ const rule: Rule.RuleModule = {
       'ImportExpression:exit': recordThrowableExpression,
       'YieldExpression:exit': recordThrowableExpression,
       onCodePathSegmentStart(segment: Rule.CodePathSegment) {
-        codePathInfoStack[0].onSegmentEnter(segment);
+        codePathInfoStack[0]?.onSegmentEnter(segment);
       },
       onUnreachableCodePathSegmentStart(segment: Rule.CodePathSegment) {
-        codePathInfoStack[0].onSegmentEnter(segment);
+        codePathInfoStack[0]?.onSegmentEnter(segment);
       },
       onCodePathSegmentEnd(
         segment: Rule.CodePathSegment,
@@ -379,7 +388,7 @@ const rule: Rule.RuleModule = {
         if (
           node.type === 'CatchClause'
           && lastThrowableExpression?.type === 'CallExpression'
-          && node.parent?.type === 'TryStatement'
+          && node.parent.type === 'TryStatement'
           && node.parent.range
           && lastThrowableExpression.range
           && node.parent.range[0] <= lastThrowableExpression.range[0]
@@ -391,18 +400,19 @@ const rule: Rule.RuleModule = {
               callee: Rule.Node;
             }
           ).callee;
-          if (resolverReferences.has(callee as never)) {
+          if (resolverReferences?.has(callee as never) === true) {
             promiseCodePathContext.addResolvedTryBlockCodePathSegment(segment);
           }
         }
-        codePathInfoStack[0].onSegmentExit(segment);
+        codePathInfoStack[0]?.onSegmentExit(segment);
       },
       onUnreachableCodePathSegmentEnd(segment: Rule.CodePathSegment) {
-        codePathInfoStack[0].onSegmentExit(segment);
+        codePathInfoStack[0]?.onSegmentExit(segment);
       },
       'CallExpression > Identifier.callee': function (node: Rule.Node) {
         const codePathInfo = codePathInfoStack[0];
         const resolverReferences = resolverReferencesStack[0];
+        if (!codePathInfo || !resolverReferences) return;
         if (!resolverReferences.has(node as never)) return;
 
         for (const segmentInfo of codePathInfo.getCurrentSegmentInfos()) {

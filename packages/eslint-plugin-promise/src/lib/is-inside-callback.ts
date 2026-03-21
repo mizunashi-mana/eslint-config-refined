@@ -21,7 +21,7 @@ export function isInsideCallback(
   const funcNode = node as Rule.Node & {
     params: Array<{ type: string; name?: string }>;
   };
-  const firstParam = funcNode.params?.[0];
+  const firstParam = funcNode.params[0];
   if (firstParam?.type !== 'Identifier') return false;
 
   return firstParam.name === 'err' || firstParam.name === 'error';

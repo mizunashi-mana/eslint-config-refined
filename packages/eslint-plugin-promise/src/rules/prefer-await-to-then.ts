@@ -35,7 +35,7 @@ const rule: Rule.RuleModule = {
           (current.type === 'FunctionDeclaration'
             || current.type === 'FunctionExpression'
             || current.type === 'ArrowFunctionExpression')
-          && (current as { async?: boolean }).async
+          && (current as { async?: boolean }).async === true
         ) {
           return true;
         }
@@ -54,7 +54,7 @@ const rule: Rule.RuleModule = {
         if (!strict) {
           // Check if the call expression is already awaited
           const callExpr = node.parent;
-          if (callExpr?.parent?.type === 'AwaitExpression') return;
+          if (callExpr.parent?.type === 'AwaitExpression') return;
         }
 
         // Only report if we're not inside an async function

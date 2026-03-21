@@ -1,5 +1,27 @@
 import { isPromise } from '../lib/is-promise.js';
 import type { Rule } from 'eslint';
+import type * as ESTree from 'estree';
+
+type CallExpressionNode = Rule.Node & ESTree.CallExpression;
+type MemberCallNode = CallExpressionNode & {
+  callee: ESTree.MemberExpression;
+};
+
+function isMemberCallExpression(
+  expression: Rule.Node,
+): expression is MemberCallNode {
+  return (
+    expression.type === 'CallExpression'
+    && expression.callee.type === 'MemberExpression'
+  );
+}
+
+function getMemberPropertyName(
+  callee: ESTree.MemberExpression,
+): string | undefined {
+  if (callee.property.type === 'Identifier') return callee.property.name;
+  return undefined;
+}
 
 const rule: Rule.RuleModule = {
   meta: {
@@ -43,65 +65,45 @@ const rule: Rule.RuleModule = {
         ? [options.terminationMethod]
         : (options.terminationMethod ?? ['catch']);
 
-    function isAllowedPromiseTermination(
-      expression: Rule.Node,
-    ): boolean {
-      // .then(fn, fn) with two arguments
-      if (
-        (allowThen || allowThenStrict)
-        && expression.type === 'CallExpression'
-        && expression.callee.type === 'MemberExpression'
-        && expression.callee.property.type === 'Identifier'
-        && expression.callee.property.name === 'then'
-        && expression.arguments.length === 2
-      ) {
-        if (allowThen && !allowThenStrict) return true;
-        // allowThenStrict: first arg must be null
-        const firstArg = expression.arguments[0];
-        if (
-          firstArg.type === 'Literal'
-          && firstArg.value === null
-        ) {
-          return true;
-        }
-      }
+    function isAllowedThenTermination(expression: MemberCallNode): boolean {
+      if (!(allowThen || allowThenStrict)) return false;
+      if (getMemberPropertyName(expression.callee) !== 'then') return false;
+      if (expression.arguments.length !== 2) return false;
+      if (allowThen && !allowThenStrict) return true;
+      const firstArg = expression.arguments[0];
+      return firstArg?.type === 'Literal'
+        && firstArg.value === null;
+    }
 
-      // .finally() after an allowed termination
-      if (
-        allowFinally
-        && expression.type === 'CallExpression'
-        && expression.callee.type === 'MemberExpression'
-        && expression.callee.property.type === 'Identifier'
-        && expression.callee.property.name === 'finally'
-        && isPromise(expression.callee.object)
-        && isAllowedPromiseTermination(
-          expression.callee.object as Rule.Node,
-        )
-      ) {
-        return true;
-      }
+    function isAllowedFinallyTermination(expression: MemberCallNode): boolean {
+      if (!allowFinally) return false;
+      if (getMemberPropertyName(expression.callee) !== 'finally') return false;
+      if (!isPromise(expression.callee.object)) return false;
+      return isAllowedPromiseTermination(
+        expression.callee.object as Rule.Node,
+      );
+    }
 
-      // terminationMethod (default: catch)
-      if (
-        expression.type === 'CallExpression'
-        && expression.callee.type === 'MemberExpression'
-        && expression.callee.property.type === 'Identifier'
-        && terminationMethod.includes(expression.callee.property.name)
-      ) {
-        return true;
-      }
+    function isTerminationMethodCall(expression: MemberCallNode): boolean {
+      const name = getMemberPropertyName(expression.callee);
+      return name !== undefined && terminationMethod.includes(name);
+    }
 
-      // Bracket notation: ['catch']()
-      if (
-        expression.type === 'CallExpression'
-        && expression.callee.type === 'MemberExpression'
-        && expression.callee.property.type === 'Literal'
+    function isBracketCatchCall(expression: MemberCallNode): boolean {
+      return (
+        expression.callee.property.type === 'Literal'
         && expression.callee.property.value === 'catch'
-      ) {
-        return true;
-      }
+      );
+    }
 
-      return false;
+    function isAllowedPromiseTermination(expression: Rule.Node): boolean {
+      if (!isMemberCallExpression(expression)) return false;
+      return (
+        isAllowedThenTermination(expression)
+        || isAllowedFinallyTermination(expression)
+        || isTerminationMethodCall(expression)
+        || isBracketCatchCall(expression)
+      );
     }
 
     return {

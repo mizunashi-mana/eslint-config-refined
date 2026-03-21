@@ -21,6 +21,9 @@
     "lint:eslint": "eslint --cache .",
     "typecheck": "tsc --noEmit -p tsconfig.build.json"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "peerDependencies": {
     "eslint": "^10.0.0"
   },

@@ -32,11 +32,11 @@ const rule: Rule.RuleModule = {
     };
     const resolvePattern = new RegExp(
       options.resolvePattern ?? '^_?resolve$',
-      'u',
+      'v',
     );
     const rejectPattern = new RegExp(
       options.rejectPattern ?? '^_?reject$',
-      'u',
+      'v',
     );
 
     return {
@@ -44,7 +44,7 @@ const rule: Rule.RuleModule = {
         if (!isPromiseConstructorWithInlineExecutor(node)) return;
 
         const params = node.arguments[0].params;
-        if (!params.length) return;
+        if (params.length === 0) return;
 
         const resolveParam = params[0];
         if (
@@ -58,16 +58,18 @@ const rule: Rule.RuleModule = {
           });
         }
 
-        const rejectParam = params[1];
-        if (
-          rejectParam?.type === 'Identifier'
-          && !rejectPattern.test(rejectParam.name)
-        ) {
-          context.report({
-            node: rejectParam,
-            messageId: 'rejectParamNames',
-            data: { rejectPattern: rejectPattern.source },
-          });
+        if (params.length >= 2) {
+          const rejectParam = params[1];
+          if (
+            rejectParam?.type === 'Identifier'
+            && !rejectPattern.test(rejectParam.name)
+          ) {
+            context.report({
+              node: rejectParam,
+              messageId: 'rejectParamNames',
+              data: { rejectPattern: rejectPattern.source },
+            });
+          }
         }
       },
     };
