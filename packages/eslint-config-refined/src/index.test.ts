@@ -1,88 +1,93 @@
+import { ESLint } from "eslint";
 import { describe, expect, it } from "vitest";
 import { buildConfig } from "./index.js";
 
-type ConfigItem = {
-  name?: string;
-  files?: string[];
-  ignores?: string[];
-  plugins?: Record<string, unknown>;
-  rules?: Record<string, unknown>;
-  settings?: Record<string, unknown>;
-  languageOptions?: Record<string, unknown>;
-};
+describe("buildConfig snapshot tests", () => {
+  describe("common ruleSet", () => {
+    const eslint = createESLint({ ruleSets: ["common"] });
 
-/**
- * Extract serializable snapshot data from ESLint config.
- * Focuses on rules, files, ignores, and settings - the parts we want to track for changes.
- */
-function extractSnapshotData(config: ReturnType<typeof buildConfig>) {
-  return (config as ConfigItem[]).map((item) => {
-    const result: Record<string, unknown> = {};
+    it("should apply correct rules for source files", async () => {
+      const config = await calculateConfigForSnapshot(eslint, "src/app.ts");
+      expect(config).toMatchSnapshot();
+    });
 
-    if (item.name !== undefined && item.name !== "") result.name = item.name;
-    if (item.files !== undefined) result.files = item.files;
-    if (item.ignores !== undefined) result.ignores = item.ignores;
-    if (item.rules !== undefined) result.rules = item.rules;
-    if (item.settings !== undefined) result.settings = item.settings;
+    it("should apply correct rules for test files", async () => {
+      const config = await calculateConfigForSnapshot(
+        eslint,
+        "src/app.test.ts",
+      );
+      expect(config).toMatchSnapshot();
+    });
 
-    // Extract plugin names without the actual plugin objects (which have circular refs)
-    if (item.plugins !== undefined) {
-      result.plugins = Object.keys(item.plugins);
-    }
+    it("should apply correct rules for config files", async () => {
+      const config = await calculateConfigForSnapshot(
+        eslint,
+        "eslint.config.ts",
+      );
+      expect(config).toMatchSnapshot();
+    });
 
-    // Extract language options without parser objects
-    if (item.languageOptions !== undefined) {
-      const langOpts: Record<string, unknown> = {};
-      const lo = item.languageOptions;
+    it("should apply correct rules for entrypoint files", async () => {
+      const config = await calculateConfigForSnapshot(eslint, "src/index.ts");
+      expect(config).toMatchSnapshot();
+    });
+  });
 
-      if (lo.ecmaVersion !== undefined) langOpts.ecmaVersion = lo.ecmaVersion;
-      if (lo.sourceType !== undefined) langOpts.sourceType = lo.sourceType;
-      if (lo.globals !== undefined) langOpts.globals = lo.globals;
-      if (lo.parser !== undefined) langOpts.parser = "[Parser]";
-      if (lo.parserOptions !== undefined) {
-        langOpts.parserOptions = lo.parserOptions;
-      }
+  describe("common + node ruleSets", () => {
+    const eslint = createESLint({ ruleSets: ["common", "node"] });
 
-      if (Object.keys(langOpts).length > 0) {
-        result.languageOptions = langOpts;
-      }
-    }
+    it("should apply correct rules for source files", async () => {
+      const config = await calculateConfigForSnapshot(eslint, "src/app.ts");
+      expect(config).toMatchSnapshot();
+    });
 
-    return result;
+    it("should apply correct rules for entrypoint files", async () => {
+      const config = await calculateConfigForSnapshot(eslint, "src/index.ts");
+      expect(config).toMatchSnapshot();
+    });
+  });
+
+  describe("common + node ruleSets with disableFixedRules", () => {
+    const eslint = createESLint({
+      ruleSets: ["common", "node"],
+      disableFixedRules: true,
+    });
+
+    it("should apply correct rules for source files", async () => {
+      const config = await calculateConfigForSnapshot(eslint, "src/app.ts");
+      expect(config).toMatchSnapshot();
+    });
+  });
+});
+
+function createESLint(env: Parameters<typeof buildConfig>[0]): ESLint {
+  const config = buildConfig(env);
+  return new ESLint({
+    overrideConfigFile: true,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+    overrideConfig: config as any,
+    cwd: process.cwd(),
   });
 }
 
-describe("buildConfig", () => {
-  it("should generate correct config for common ruleSet only", () => {
-    const config = buildConfig({
-      ruleSets: ["common"],
-      disableFixedRules: false,
-      entrypointFiles: ["src/index.ts"],
-    });
+async function calculateConfigForSnapshot(eslint: ESLint, filePath: string) {
+  const raw = (await eslint.calculateConfigForFile(filePath)) as Record<
+    string,
+    unknown
+  > & {
+    languageOptions?: Record<string, unknown>;
+  };
 
-    const snapshotData = extractSnapshotData(config);
-    expect(snapshotData).toMatchSnapshot();
-  });
+  const { languageOptions, rules, linterOptions, processor } = raw;
+  const result: Record<string, unknown> = {};
 
-  it("should generate correct config for common + node ruleSets", () => {
-    const config = buildConfig({
-      ruleSets: ["common", "node"],
-      disableFixedRules: false,
-      entrypointFiles: ["src/index.ts"],
-    });
+  if (languageOptions) {
+    const { ecmaVersion, sourceType } = languageOptions;
+    result.languageOptions = { ecmaVersion, sourceType };
+  }
+  if (linterOptions) result.linterOptions = linterOptions;
+  if (processor) result.processor = processor;
+  if (rules) result.rules = rules;
 
-    const snapshotData = extractSnapshotData(config);
-    expect(snapshotData).toMatchSnapshot();
-  });
-
-  it("should generate correct config for common + node ruleSets with disableFixedRules", () => {
-    const config = buildConfig({
-      ruleSets: ["common", "node"],
-      disableFixedRules: true,
-      entrypointFiles: ["src/index.ts"],
-    });
-
-    const snapshotData = extractSnapshotData(config);
-    expect(snapshotData).toMatchSnapshot();
-  });
-});
+  return result;
+}
