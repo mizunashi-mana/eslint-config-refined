@@ -202,7 +202,6 @@ exports[`buildConfig > should generate correct config for common + node ruleSets
         "error",
         "that",
       ],
-      "constructor-super": "error",
       "curly": [
         "error",
         "multi-line",
@@ -349,12 +348,6 @@ exports[`buildConfig > should generate correct config for common + node ruleSets
         "always",
       ],
       "no-script-url": "error",
-      "no-self-assign": [
-        "error",
-        {
-          "props": true,
-        },
-      ],
       "no-self-compare": "error",
       "no-sequences": [
         "error",
@@ -373,7 +366,6 @@ exports[`buildConfig > should generate correct config for common + node ruleSets
       "no-unreachable-loop": [
         "error",
       ],
-      "no-useless-assignment": "error",
       "no-useless-call": "error",
       "no-useless-computed-key": "error",
       "no-useless-concat": "error",
@@ -1881,7 +1873,6 @@ exports[`buildConfig > should generate correct config for common + node ruleSets
         "error",
         "that",
       ],
-      "constructor-super": "error",
       "curly": [
         "error",
         "multi-line",
@@ -2028,12 +2019,6 @@ exports[`buildConfig > should generate correct config for common + node ruleSets
         "always",
       ],
       "no-script-url": "error",
-      "no-self-assign": [
-        "error",
-        {
-          "props": true,
-        },
-      ],
       "no-self-compare": "error",
       "no-sequences": [
         "error",
@@ -2052,7 +2037,6 @@ exports[`buildConfig > should generate correct config for common + node ruleSets
       "no-unreachable-loop": [
         "error",
       ],
-      "no-useless-assignment": "error",
       "no-useless-call": "error",
       "no-useless-computed-key": "error",
       "no-useless-concat": "error",
@@ -3560,7 +3544,6 @@ exports[`buildConfig > should generate correct config for common ruleSet only 1`
         "error",
         "that",
       ],
-      "constructor-super": "error",
       "curly": [
         "error",
         "multi-line",
@@ -3707,12 +3690,6 @@ exports[`buildConfig > should generate correct config for common ruleSet only 1`
         "always",
       ],
       "no-script-url": "error",
-      "no-self-assign": [
-        "error",
-        {
-          "props": true,
-        },
-      ],
       "no-self-compare": "error",
       "no-sequences": [
         "error",
@@ -3731,7 +3708,6 @@ exports[`buildConfig > should generate correct config for common ruleSet only 1`
       "no-unreachable-loop": [
         "error",
       ],
-      "no-useless-assignment": "error",
       "no-useless-call": "error",
       "no-useless-computed-key": "error",
       "no-useless-concat": "error",
