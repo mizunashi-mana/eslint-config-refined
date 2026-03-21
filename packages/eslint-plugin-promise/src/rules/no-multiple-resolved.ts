@@ -376,10 +376,14 @@ const rule: Rule.RuleModule = {
       'ImportExpression:exit': recordThrowableExpression,
       'YieldExpression:exit': recordThrowableExpression,
       onCodePathSegmentStart(segment: Rule.CodePathSegment) {
-        codePathInfoStack[0]?.onSegmentEnter(segment);
+        const codePathInfo = codePathInfoStack[0];
+        if (!codePathInfo) return;
+        codePathInfo.onSegmentEnter(segment);
       },
       onUnreachableCodePathSegmentStart(segment: Rule.CodePathSegment) {
-        codePathInfoStack[0]?.onSegmentEnter(segment);
+        const codePathInfo = codePathInfoStack[0];
+        if (!codePathInfo) return;
+        codePathInfo.onSegmentEnter(segment);
       },
       onCodePathSegmentEnd(
         segment: Rule.CodePathSegment,
@@ -395,19 +399,24 @@ const rule: Rule.RuleModule = {
           && lastThrowableExpression.range[1] <= node.parent.range[1]
         ) {
           const resolverReferences = resolverReferencesStack[0];
+          if (!resolverReferences) return;
           const callee = (
             lastThrowableExpression as unknown as {
               callee: Rule.Node;
             }
           ).callee;
-          if (resolverReferences?.has(callee as never) === true) {
+          if (resolverReferences.has(callee as never)) {
             promiseCodePathContext.addResolvedTryBlockCodePathSegment(segment);
           }
         }
-        codePathInfoStack[0]?.onSegmentExit(segment);
+        const codePathInfoForExit = codePathInfoStack[0];
+        if (!codePathInfoForExit) return;
+        codePathInfoForExit.onSegmentExit(segment);
       },
       onUnreachableCodePathSegmentEnd(segment: Rule.CodePathSegment) {
-        codePathInfoStack[0]?.onSegmentExit(segment);
+        const codePathInfo = codePathInfoStack[0];
+        if (!codePathInfo) return;
+        codePathInfo.onSegmentExit(segment);
       },
       'CallExpression > Identifier.callee': function (node: Rule.Node) {
         const codePathInfo = codePathInfoStack[0];

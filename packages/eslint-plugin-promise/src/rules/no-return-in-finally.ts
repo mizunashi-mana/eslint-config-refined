@@ -72,6 +72,7 @@ const rule: Rule.RuleModule = {
         if (node.arguments.length === 0) return;
 
         const callback = node.arguments[0];
+        // noUncheckedIndexedAccess guard — length check above guarantees existence
         if (
           callback === undefined
           || (callback.type !== 'FunctionExpression'

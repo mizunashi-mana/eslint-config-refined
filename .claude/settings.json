@@ -9,10 +9,12 @@
       "Bash(npm run test:update:*)",
       "Bash(npm test:*)",
       "Skill(autodev-create-pr)",
+      "Skill(autodev-import-review-suggestions)",
       "Skill(autodev-start-new-project)",
       "Skill(autodev-start-new-survey)",
       "Skill(autodev-start-new-task)",
-      "Skill(autodev-steering)"
+      "Skill(autodev-steering)",
+      "Skill(autodev-switch-to-default)"
     ],
     "deny": [
       "Bash(pnpm:*)",

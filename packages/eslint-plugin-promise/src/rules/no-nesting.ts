@@ -50,6 +50,7 @@ const rule: Rule.RuleModule = {
         // parameter). This indicates the nesting is intentional because the inner
         // promise depends on the outer callback's value.
         const closestCallbackScope = callbackScopes[0];
+        // noUncheckedIndexedAccess guard — length check above guarantees existence
         if (!closestCallbackScope) return;
         for (const reference of iterateDefinedReferences(
           closestCallbackScope,
