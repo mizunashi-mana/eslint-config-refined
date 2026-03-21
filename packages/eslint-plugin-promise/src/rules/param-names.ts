@@ -12,8 +12,8 @@ const rule: Rule.RuleModule = {
       {
         type: "object",
         properties: {
-          resolvePattern: { type: "string" },
-          rejectPattern: { type: "string" },
+          resolvePattern: { type: "string", format: "regex" },
+          rejectPattern: { type: "string", format: "regex" },
         },
         additionalProperties: false,
       },

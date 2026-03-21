@@ -1,5 +1,5 @@
 import type * as ESTree from "estree";
-import type { Rule } from "eslint";
+import type { Rule, SourceCode } from "eslint";
 
 /**
  * Walk statements looking for return statements that belong directly
@@ -7,6 +7,7 @@ import type { Rule } from "eslint";
  */
 function findDirectReturns(
   statements: ESTree.Statement[],
+  visitorKeys: SourceCode.VisitorKeys,
 ): ESTree.ReturnStatement[] {
   const returns: ESTree.ReturnStatement[] = [];
 
@@ -23,8 +24,19 @@ function findDirectReturns(
     ) {
       return;
     }
-    for (const child of childStatements(node)) {
-      visit(child);
+    const keys = visitorKeys[node.type];
+    if (!keys) return;
+    for (const key of keys) {
+      const val = (node as unknown as Record<string, unknown>)[key];
+      if (Array.isArray(val)) {
+        for (const child of val) {
+          if (child && typeof child === "object" && "type" in child) {
+            visit(child as ESTree.Node);
+          }
+        }
+      } else if (val && typeof val === "object" && "type" in val) {
+        visit(val as ESTree.Node);
+      }
     }
   }
 
@@ -32,28 +44,6 @@ function findDirectReturns(
     visit(stmt);
   }
   return returns;
-}
-
-function childStatements(node: ESTree.Node): ESTree.Node[] {
-  const children: ESTree.Node[] = [];
-  const n = node as unknown as Record<string, unknown>;
-  for (const key of [
-    "body",
-    "consequent",
-    "alternate",
-    "block",
-    "handler",
-    "finalizer",
-    "cases",
-  ]) {
-    const val = n[key];
-    if (Array.isArray(val)) {
-      children.push(...(val as ESTree.Node[]));
-    } else if (val && typeof val === "object" && "type" in val) {
-      children.push(val as ESTree.Node);
-    }
-  }
-  return children;
 }
 
 const rule: Rule.RuleModule = {
@@ -89,7 +79,10 @@ const rule: Rule.RuleModule = {
 
         if (callback.body.type !== "BlockStatement") return;
 
-        for (const ret of findDirectReturns(callback.body.body)) {
+        for (const ret of findDirectReturns(
+          callback.body.body,
+          context.sourceCode.visitorKeys,
+        )) {
           context.report({
             node: ret,
             messageId: "noReturnInFinally",

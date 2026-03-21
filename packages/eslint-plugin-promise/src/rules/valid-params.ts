@@ -47,7 +47,13 @@ const rule: Rule.RuleModule = {
         switch (name) {
           case "resolve":
           case "reject":
-            if (numArgs > 1) {
+            // Only check Promise.resolve() / Promise.reject() static calls
+            if (
+              node.callee.type === "MemberExpression" &&
+              node.callee.object.type === "Identifier" &&
+              node.callee.object.name === "Promise" &&
+              numArgs > 1
+            ) {
               context.report({
                 node,
                 messageId: "requireOneOptionalArgument",

@@ -59,7 +59,6 @@ Object.assign(configs, {
         [`${PLUGIN_NAMESPACE}/no-new-statics`]: "error",
         [`${PLUGIN_NAMESPACE}/no-return-wrap`]: "error",
         [`${PLUGIN_NAMESPACE}/param-names`]: "error",
-        [`${PLUGIN_NAMESPACE}/no-multiple-resolved`]: "warn",
         [`${PLUGIN_NAMESPACE}/no-nesting`]: "warn",
         [`${PLUGIN_NAMESPACE}/no-promise-in-callback`]: "warn",
         [`${PLUGIN_NAMESPACE}/valid-params`]: "warn",
