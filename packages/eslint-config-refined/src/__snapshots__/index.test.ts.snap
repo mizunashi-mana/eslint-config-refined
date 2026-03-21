@@ -219,6 +219,9 @@ exports[`buildConfig snapshot tests > common + node ruleSets > should apply corr
     "@mizunashi_mana/promise/param-names": [
       2,
     ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
     "@mizunashi_mana/promise/valid-params": [
       1,
     ],
@@ -2132,6 +2135,9 @@ exports[`buildConfig snapshot tests > common + node ruleSets > should apply corr
       2,
     ],
     "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
       2,
     ],
     "@mizunashi_mana/promise/valid-params": [
@@ -4049,6 +4055,9 @@ exports[`buildConfig snapshot tests > common + node ruleSets with disableFixedRu
     "@mizunashi_mana/promise/param-names": [
       2,
     ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
     "@mizunashi_mana/promise/valid-params": [
       1,
     ],
@@ -5904,6 +5913,9 @@ exports[`buildConfig snapshot tests > common ruleSet > should apply correct rule
     "@mizunashi_mana/promise/param-names": [
       2,
     ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
     "@mizunashi_mana/promise/valid-params": [
       1,
     ],
@@ -7694,6 +7706,9 @@ exports[`buildConfig snapshot tests > common ruleSet > should apply correct rule
       2,
     ],
     "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
       2,
     ],
     "@mizunashi_mana/promise/valid-params": [
@@ -9488,6 +9503,9 @@ exports[`buildConfig snapshot tests > common ruleSet > should apply correct rule
     "@mizunashi_mana/promise/param-names": [
       2,
     ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
     "@mizunashi_mana/promise/valid-params": [
       1,
     ],
@@ -11278,6 +11296,9 @@ exports[`buildConfig snapshot tests > common ruleSet > should apply correct rule
       2,
     ],
     "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
       2,
     ],
     "@mizunashi_mana/promise/valid-params": [
