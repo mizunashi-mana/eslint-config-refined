@@ -1,5 +1,7 @@
 # @mizunashi_mana/eslint-config-refined
 
+[![npm version](https://img.shields.io/npm/v/%40mizunashi_mana/eslint-config-refined)](https://www.npmjs.com/package/@mizunashi_mana/eslint-config-refined)
+
 A strict, opinionated ESLint shared configuration for TypeScript projects.
 
 ## Features

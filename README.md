@@ -1,5 +1,8 @@
 # eslint-config-refined
 
+[![CI Lint](https://github.com/mizunashi-mana/eslint-config-refined/actions/workflows/ci-lint.yml/badge.svg)](https://github.com/mizunashi-mana/eslint-config-refined/actions/workflows/ci-lint.yml)
+[![CI Test](https://github.com/mizunashi-mana/eslint-config-refined/actions/workflows/ci-test.yml/badge.svg)](https://github.com/mizunashi-mana/eslint-config-refined/actions/workflows/ci-test.yml)
+
 A strict, opinionated ESLint shared configuration for TypeScript projects.
 
 ## What

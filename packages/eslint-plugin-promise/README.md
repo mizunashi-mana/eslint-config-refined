@@ -1,5 +1,7 @@
 # @mizunashi_mana/eslint-plugin-promise
 
+[![npm version](https://img.shields.io/npm/v/%40mizunashi_mana/eslint-plugin-promise)](https://www.npmjs.com/package/@mizunashi_mana/eslint-plugin-promise)
+
 ESLint plugin for Promise best practices, rewritten for ESLint v10.
 
 This is a modern rewrite of [eslint-plugin-promise](https://github.com/eslint-community/eslint-plugin-promise) targeting ESLint v10's flat config and Rule API.

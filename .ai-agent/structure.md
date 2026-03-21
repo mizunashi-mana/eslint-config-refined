@@ -28,14 +28,17 @@ eslint-config-refined/
 │       ├── autodev-start-new-survey/   # 技術調査開始
 │       ├── autodev-start-new-task/     # 個別タスク開始
 │       ├── autodev-steering/           # Steering ドキュメント更新
-│       └── autodev-switch-to-default/  # デフォルトブランチ切り替え
+│       ├── autodev-switch-to-default/  # デフォルトブランチ切り替え
+│       └── bump-version/              # パッケージバージョン更新
 ├── .github/                            # GitHub 設定
 │   ├── actions/                        # composite actions
 │   │   ├── setup-devenv/               # devenv セットアップ（Nix, cachix, devenv）
 │   │   └── setup-node/                 # Node.js セットアップ（npm キャッシュ, npm ci）
+│   ├── dependabot.yml                  # Dependabot 設定
 │   └── workflows/                      # GitHub Actions ワークフロー
 │       ├── ci-lint.yml                 # Lint ワークフロー（devenv + prek）
-│       └── ci-test.yml                 # テストワークフロー（Node.js + npm test）
+│       ├── ci-test.yml                 # テストワークフロー（Node.js + npm test）
+│       └── publish.yml                 # npm 公開ワークフロー（手動トリガー）
 ├── packages/                           # npm パッケージ群
 │   ├── eslint-config-refined/          # メインの共有 ESLint 設定
 │   └── eslint-plugin-promise/          # eslint-plugin-promise の ESLint v10 用書き直し
