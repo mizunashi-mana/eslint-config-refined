@@ -18,7 +18,7 @@ A strict, opinionated ESLint shared configuration for TypeScript projects.
 | Package | Description |
 |---|---|
 | `@mizunashi_mana/eslint-config-refined` | Main shared ESLint configuration |
-| `@mizunashi_mana/eslint-plugin-promise` | Promise-related ESLint rules rewritten for modern ESLint (planned) |
+| `@mizunashi_mana/eslint-plugin-promise` | Promise-related ESLint rules rewritten for modern ESLint |
 
 ## Quick Start
 
