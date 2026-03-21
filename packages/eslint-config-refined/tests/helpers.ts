@@ -1,5 +1,5 @@
 import { ESLint } from 'eslint';
-import { buildConfig } from '../src/index.js';
+import { buildConfig } from '@mizunashi_mana/eslint-config-refined';
 
 export function createESLint(
   env: Parameters<typeof buildConfig>[0],

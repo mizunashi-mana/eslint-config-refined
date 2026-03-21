@@ -1,4 +1,4 @@
-import { isPromiseConstructorWithInlineExecutor } from '../lib/is-promise-constructor.js';
+import { isPromiseConstructorWithInlineExecutor } from '#lib';
 import type { Rule, Scope } from 'eslint';
 
 function* iterateAllPrevPathSegments(

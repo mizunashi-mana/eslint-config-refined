@@ -1,4 +1,4 @@
-import { PROMISE_STATICS } from '../lib/promise-statics.js';
+import { PROMISE_STATICS } from '#lib';
 import type { Rule } from 'eslint';
 
 const rule: Rule.RuleModule = {

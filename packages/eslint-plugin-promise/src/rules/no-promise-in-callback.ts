@@ -1,5 +1,4 @@
-import { isInsideCallback } from '../lib/is-inside-callback.js';
-import { isPromise } from '../lib/is-promise.js';
+import { isInsideCallback, isPromise } from '#lib';
 import type { Rule } from 'eslint';
 
 const rule: Rule.RuleModule = {
