@@ -69,7 +69,6 @@ export function buildJsConfig(props: { entrypointFiles: string[] }) {
         "no-octal-escape": "error",
         "no-param-reassign": ["error", { props: true }],
         "no-plusplus": "error",
-        "no-useless-assignment": "error",
         "no-promise-executor-return": ["error", { allowVoid: false }],
         "no-proto": "error",
         "no-restricted-globals": [
@@ -119,19 +118,19 @@ export function buildJsConfig(props: { entrypointFiles: string[] }) {
           { destructuring: "all", ignoreReadBeforeAssign: false },
         ],
         "prefer-exponentiation-operator": "error",
+        "prefer-named-capture-group": "error",
         "prefer-numeric-literals": "error",
         "prefer-object-has-own": "error",
         "prefer-object-spread": "error",
-        "preserve-caught-error": [
-          "error",
-          { requireCatchParameter: true },
-        ],
         "prefer-regex-literals": [
           "error",
           { disallowRedundantWrapping: true },
         ],
-        "prefer-named-capture-group": "error",
         "prefer-template": "error",
+        "preserve-caught-error": [
+          "error",
+          { requireCatchParameter: true },
+        ],
         "radix": ["error", "always"],
         "require-unicode-regexp": ["error", { requireFlag: "v" }],
         "symbol-description": "error",
