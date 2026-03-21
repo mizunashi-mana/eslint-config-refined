@@ -1,16 +1,16 @@
-import type { Rule, Scope } from "eslint";
-import { hasPromiseCallback } from "../lib/has-promise-callback.js";
-import { isInsidePromise } from "../lib/is-inside-promise.js";
+import { hasPromiseCallback } from '../lib/has-promise-callback.js';
+import { isInsidePromise } from '../lib/is-inside-promise.js';
+import type { Rule, Scope } from 'eslint';
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "suggestion",
+    type: 'suggestion',
     docs: {
-      description: "Disallow nested `then()` or `catch()` statements.",
+      description: 'Disallow nested `then()` or `catch()` statements.',
     },
     schema: [],
     messages: {
-      avoidNesting: "Avoid nesting promises.",
+      avoidNesting: 'Avoid nesting promises.',
     },
   },
   create(context) {
@@ -31,12 +31,12 @@ const rule: Rule.RuleModule = {
     }
 
     return {
-      ":function"(node: Rule.Node) {
+      ':function': function (node: Rule.Node) {
         if (isInsidePromise(node)) {
           callbackScopes.unshift(context.sourceCode.getScope(node));
         }
       },
-      ":function:exit"(node: Rule.Node) {
+      ':function:exit': function (node: Rule.Node) {
         if (isInsidePromise(node)) {
           callbackScopes.shift();
         }
@@ -54,11 +54,11 @@ const rule: Rule.RuleModule = {
           closestCallbackScope,
         )) {
           const isReferencedInCallbackArgs = node.arguments.some(
-            (arg) =>
-              arg.range &&
-              reference.identifier.range &&
-              arg.range[0] <= reference.identifier.range[0] &&
-              reference.identifier.range[1] <= arg.range[1],
+            arg =>
+              arg.range
+              && reference.identifier.range
+              && arg.range[0] <= reference.identifier.range[0]
+              && reference.identifier.range[1] <= arg.range[1],
           );
           if (isReferencedInCallbackArgs) {
             return;
@@ -66,12 +66,12 @@ const rule: Rule.RuleModule = {
         }
 
         if (
-          node.callee.type === "MemberExpression" &&
-          node.callee.property.type === "Identifier"
+          node.callee.type === 'MemberExpression'
+          && node.callee.property.type === 'Identifier'
         ) {
           context.report({
             node: node.callee.property,
-            messageId: "avoidNesting",
+            messageId: 'avoidNesting',
           });
         }
       },

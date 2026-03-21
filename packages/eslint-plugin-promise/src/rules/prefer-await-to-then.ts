@@ -1,23 +1,23 @@
-import type { Rule } from "eslint";
+import type { Rule } from 'eslint';
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "suggestion",
+    type: 'suggestion',
     docs: {
       description:
-        "Prefer `await` to `then()`/`catch()`/`finally()` for reading Promise values.",
+        'Prefer `await` to `then()`/`catch()`/`finally()` for reading Promise values.',
     },
     schema: [
       {
-        type: "object",
+        type: 'object',
         properties: {
-          strict: { type: "boolean" },
+          strict: { type: 'boolean' },
         },
         additionalProperties: false,
       },
     ],
     messages: {
-      preferAwaitToThen: "Prefer await to then()/catch()/finally().",
+      preferAwaitToThen: 'Prefer await to then()/catch()/finally().',
     },
   },
   create(context) {
@@ -25,17 +25,17 @@ const rule: Rule.RuleModule = {
     const strict = options.strict ?? false;
 
     function isPromiseMethod(name: string): boolean {
-      return name === "then" || name === "catch" || name === "finally";
+      return name === 'then' || name === 'catch' || name === 'finally';
     }
 
     function isInsideAsyncFunction(node: Rule.Node): boolean {
       let current = node.parent as Rule.Node | undefined;
       while (current) {
         if (
-          (current.type === "FunctionDeclaration" ||
-            current.type === "FunctionExpression" ||
-            current.type === "ArrowFunctionExpression") &&
-          (current as { async?: boolean }).async
+          (current.type === 'FunctionDeclaration'
+            || current.type === 'FunctionExpression'
+            || current.type === 'ArrowFunctionExpression')
+          && (current as { async?: boolean }).async
         ) {
           return true;
         }
@@ -45,16 +45,16 @@ const rule: Rule.RuleModule = {
     }
 
     return {
-      "CallExpression > MemberExpression.callee"(node: Rule.Node) {
-        if (node.type !== "MemberExpression") return;
-        if (node.property.type !== "Identifier") return;
+      'CallExpression > MemberExpression.callee': function (node: Rule.Node) {
+        if (node.type !== 'MemberExpression') return;
+        if (node.property.type !== 'Identifier') return;
         if (!isPromiseMethod(node.property.name)) return;
 
         // In strict mode, always flag. Otherwise only flag if not after await.
         if (!strict) {
           // Check if the call expression is already awaited
           const callExpr = node.parent;
-          if (callExpr?.parent?.type === "AwaitExpression") return;
+          if (callExpr?.parent?.type === 'AwaitExpression') return;
         }
 
         // Only report if we're not inside an async function
@@ -63,7 +63,7 @@ const rule: Rule.RuleModule = {
 
         context.report({
           node: node.property,
-          messageId: "preferAwaitToThen",
+          messageId: 'preferAwaitToThen',
         });
       },
     };

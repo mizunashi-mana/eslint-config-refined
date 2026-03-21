@@ -1,24 +1,24 @@
-import type { Rule } from "eslint";
-import { isPromise } from "../lib/is-promise.js";
-import { isInsideCallback } from "../lib/is-inside-callback.js";
+import { isInsideCallback } from '../lib/is-inside-callback.js';
+import { isPromise } from '../lib/is-promise.js';
+import type { Rule } from 'eslint';
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "suggestion",
+    type: 'suggestion',
     docs: {
-      description: "Disallow using promises inside of callbacks.",
+      description: 'Disallow using promises inside of callbacks.',
     },
     schema: [
       {
-        type: "object",
+        type: 'object',
         properties: {
-          exemptDeclarations: { type: "boolean" },
+          exemptDeclarations: { type: 'boolean' },
         },
         additionalProperties: false,
       },
     ],
     messages: {
-      avoidPromiseInCallback: "Avoid using promises inside of callbacks.",
+      avoidPromiseInCallback: 'Avoid using promises inside of callbacks.',
     },
   },
   create(context) {
@@ -32,7 +32,7 @@ const rule: Rule.RuleModule = {
         if (!isPromise(node)) return;
 
         // If the promise is returned, it's fine
-        if (node.parent?.type === "ReturnStatement") return;
+        if (node.parent?.type === 'ReturnStatement') return;
 
         // Walk up ancestors to find if we're inside a callback
         let current = node.parent as Rule.Node | undefined;
@@ -40,7 +40,7 @@ const rule: Rule.RuleModule = {
           if (isInsideCallback(current, exemptDeclarations)) {
             context.report({
               node: node.callee,
-              messageId: "avoidPromiseInCallback",
+              messageId: 'avoidPromiseInCallback',
             });
             return;
           }

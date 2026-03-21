@@ -1,20 +1,20 @@
-import type { Rule } from "eslint";
-import { isPromise } from "../lib/is-promise.js";
+import { isPromise } from '../lib/is-promise.js';
+import type { Rule } from 'eslint';
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "problem",
+    type: 'problem',
     docs: {
       description:
-        "Enforces the proper number of arguments are passed to Promise functions.",
+        'Enforces the proper number of arguments are passed to Promise functions.',
     },
     schema: [
       {
-        type: "object",
+        type: 'object',
         properties: {
           exclude: {
-            type: "array",
-            items: { type: "string" },
+            type: 'array',
+            items: { type: 'string' },
           },
         },
         additionalProperties: false,
@@ -22,11 +22,11 @@ const rule: Rule.RuleModule = {
     ],
     messages: {
       requireOneOptionalArgument:
-        "Promise.{{ name }}() requires 0 or 1 arguments, but received {{ numArgs }}",
+        'Promise.{{ name }}() requires 0 or 1 arguments, but received {{ numArgs }}',
       requireOneArgument:
-        "Promise.{{ name }}() requires 1 argument, but received {{ numArgs }}",
+        'Promise.{{ name }}() requires 1 argument, but received {{ numArgs }}',
       requireTwoOptionalArguments:
-        "Promise.{{ name }}() requires 1 or 2 arguments, but received {{ numArgs }}",
+        'Promise.{{ name }}() requires 1 or 2 arguments, but received {{ numArgs }}',
     },
   },
   create(context) {
@@ -36,8 +36,8 @@ const rule: Rule.RuleModule = {
     return {
       CallExpression(node) {
         if (!isPromise(node)) return;
-        if (node.callee.type !== "MemberExpression") return;
-        if (node.callee.property.type !== "Identifier") return;
+        if (node.callee.type !== 'MemberExpression') return;
+        if (node.callee.property.type !== 'Identifier') return;
 
         const name = node.callee.property.name;
         const numArgs = node.arguments.length;
@@ -45,41 +45,41 @@ const rule: Rule.RuleModule = {
         if (exclude.includes(name)) return;
 
         switch (name) {
-          case "resolve":
-          case "reject":
+          case 'resolve':
+          case 'reject':
             // Only check Promise.resolve() / Promise.reject() static calls
             if (
-              node.callee.type === "MemberExpression" &&
-              node.callee.object.type === "Identifier" &&
-              node.callee.object.name === "Promise" &&
-              numArgs > 1
+              node.callee.type === 'MemberExpression'
+              && node.callee.object.type === 'Identifier'
+              && node.callee.object.name === 'Promise'
+              && numArgs > 1
             ) {
               context.report({
                 node,
-                messageId: "requireOneOptionalArgument",
+                messageId: 'requireOneOptionalArgument',
                 data: { name, numArgs: String(numArgs) },
               });
             }
             break;
-          case "then":
+          case 'then':
             if (numArgs < 1 || numArgs > 2) {
               context.report({
                 node,
-                messageId: "requireTwoOptionalArguments",
+                messageId: 'requireTwoOptionalArguments',
                 data: { name, numArgs: String(numArgs) },
               });
             }
             break;
-          case "race":
-          case "all":
-          case "allSettled":
-          case "any":
-          case "catch":
-          case "finally":
+          case 'race':
+          case 'all':
+          case 'allSettled':
+          case 'any':
+          case 'catch':
+          case 'finally':
             if (numArgs !== 1) {
               context.report({
                 node,
-                messageId: "requireOneArgument",
+                messageId: 'requireOneArgument',
                 data: { name, numArgs: String(numArgs) },
               });
             }

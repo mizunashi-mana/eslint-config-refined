@@ -1,5 +1,5 @@
-import type * as ESTree from "estree";
-import type { Rule, SourceCode } from "eslint";
+import type { Rule, SourceCode } from 'eslint';
+import type * as ESTree from 'estree';
 
 /**
  * Walk statements looking for return statements that belong directly
@@ -12,15 +12,15 @@ function findDirectReturns(
   const returns: ESTree.ReturnStatement[] = [];
 
   function visit(node: ESTree.Node) {
-    if (node.type === "ReturnStatement") {
+    if (node.type === 'ReturnStatement') {
       returns.push(node);
       return;
     }
     // Don't descend into nested functions
     if (
-      node.type === "FunctionExpression" ||
-      node.type === "ArrowFunctionExpression" ||
-      node.type === "FunctionDeclaration"
+      node.type === 'FunctionExpression'
+      || node.type === 'ArrowFunctionExpression'
+      || node.type === 'FunctionDeclaration'
     ) {
       return;
     }
@@ -30,11 +30,12 @@ function findDirectReturns(
       const val = (node as unknown as Record<string, unknown>)[key];
       if (Array.isArray(val)) {
         for (const child of val) {
-          if (child && typeof child === "object" && "type" in child) {
+          if (child && typeof child === 'object' && 'type' in child) {
             visit(child as ESTree.Node);
           }
         }
-      } else if (val && typeof val === "object" && "type" in val) {
+      }
+      else if (val && typeof val === 'object' && 'type' in val) {
         visit(val as ESTree.Node);
       }
     }
@@ -48,36 +49,36 @@ function findDirectReturns(
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "suggestion",
+    type: 'suggestion',
     docs: {
-      description: "Disallow return statements in `finally()`.",
+      description: 'Disallow return statements in `finally()`.',
     },
     schema: [],
     messages: {
-      noReturnInFinally: "No return in finally",
+      noReturnInFinally: 'No return in finally',
     },
   },
   create(context) {
     return {
       CallExpression(node) {
         if (
-          node.callee.type !== "MemberExpression" ||
-          node.callee.property.type !== "Identifier" ||
-          node.callee.property.name !== "finally"
+          node.callee.type !== 'MemberExpression'
+          || node.callee.property.type !== 'Identifier'
+          || node.callee.property.name !== 'finally'
         ) {
           return;
         }
 
         const callback = node.arguments[0];
         if (
-          !callback ||
-          (callback.type !== "FunctionExpression" &&
-            callback.type !== "ArrowFunctionExpression")
+          !callback
+          || (callback.type !== 'FunctionExpression'
+            && callback.type !== 'ArrowFunctionExpression')
         ) {
           return;
         }
 
-        if (callback.body.type !== "BlockStatement") return;
+        if (callback.body.type !== 'BlockStatement') return;
 
         for (const ret of findDirectReturns(
           callback.body.body,
@@ -85,7 +86,7 @@ const rule: Rule.RuleModule = {
         )) {
           context.report({
             node: ret,
-            messageId: "noReturnInFinally",
+            messageId: 'noReturnInFinally',
           });
         }
       },

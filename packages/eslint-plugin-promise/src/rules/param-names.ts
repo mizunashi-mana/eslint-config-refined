@@ -1,19 +1,19 @@
-import type { Rule } from "eslint";
-import { isPromiseConstructorWithInlineExecutor } from "../lib/is-promise-constructor.js";
+import { isPromiseConstructorWithInlineExecutor } from '../lib/is-promise-constructor.js';
+import type { Rule } from 'eslint';
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "suggestion",
+    type: 'suggestion',
     docs: {
       description:
-        "Enforce consistent param names and ordering when creating new promises.",
+        'Enforce consistent param names and ordering when creating new promises.',
     },
     schema: [
       {
-        type: "object",
+        type: 'object',
         properties: {
-          resolvePattern: { type: "string", format: "regex" },
-          rejectPattern: { type: "string", format: "regex" },
+          resolvePattern: { type: 'string', format: 'regex' },
+          rejectPattern: { type: 'string', format: 'regex' },
         },
         additionalProperties: false,
       },
@@ -31,12 +31,12 @@ const rule: Rule.RuleModule = {
       rejectPattern?: string;
     };
     const resolvePattern = new RegExp(
-      options.resolvePattern ?? "^_?resolve$",
-      "u",
+      options.resolvePattern ?? '^_?resolve$',
+      'u',
     );
     const rejectPattern = new RegExp(
-      options.rejectPattern ?? "^_?reject$",
-      "u",
+      options.rejectPattern ?? '^_?reject$',
+      'u',
     );
 
     return {
@@ -48,24 +48,24 @@ const rule: Rule.RuleModule = {
 
         const resolveParam = params[0];
         if (
-          resolveParam?.type === "Identifier" &&
-          !resolvePattern.test(resolveParam.name)
+          resolveParam?.type === 'Identifier'
+          && !resolvePattern.test(resolveParam.name)
         ) {
           context.report({
             node: resolveParam,
-            messageId: "resolveParamNames",
+            messageId: 'resolveParamNames',
             data: { resolvePattern: resolvePattern.source },
           });
         }
 
         const rejectParam = params[1];
         if (
-          rejectParam?.type === "Identifier" &&
-          !rejectPattern.test(rejectParam.name)
+          rejectParam?.type === 'Identifier'
+          && !rejectPattern.test(rejectParam.name)
         ) {
           context.report({
             node: rejectParam,
-            messageId: "rejectParamNames",
+            messageId: 'rejectParamNames',
             data: { rejectPattern: rejectPattern.source },
           });
         }

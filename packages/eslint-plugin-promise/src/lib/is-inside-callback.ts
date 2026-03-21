@@ -1,5 +1,5 @@
-import type { Rule } from "eslint";
-import { isInsidePromise } from "./is-inside-promise.js";
+import { isInsidePromise } from './is-inside-promise.js';
+import type { Rule } from 'eslint';
 
 /**
  * Checks if a function node is inside a callback
@@ -9,10 +9,10 @@ export function isInsideCallback(
   node: Rule.Node,
   exemptDeclarations = false,
 ): boolean {
-  const isFunction =
-    node.type === "FunctionExpression" ||
-    node.type === "ArrowFunctionExpression" ||
-    (!exemptDeclarations && node.type === "FunctionDeclaration");
+  const isFunction
+    = node.type === 'FunctionExpression'
+      || node.type === 'ArrowFunctionExpression'
+      || (!exemptDeclarations && node.type === 'FunctionDeclaration');
   if (!isFunction) return false;
 
   // It's fine to use promises inside promises
@@ -22,7 +22,7 @@ export function isInsideCallback(
     params: Array<{ type: string; name?: string }>;
   };
   const firstParam = funcNode.params?.[0];
-  if (!firstParam || firstParam.type !== "Identifier") return false;
+  if (firstParam?.type !== 'Identifier') return false;
 
-  return firstParam.name === "err" || firstParam.name === "error";
+  return firstParam.name === 'err' || firstParam.name === 'error';
 }

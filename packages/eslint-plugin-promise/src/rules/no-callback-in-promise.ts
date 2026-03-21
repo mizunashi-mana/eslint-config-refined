@@ -1,28 +1,28 @@
-import type { Rule } from "eslint";
-import { isInsidePromise } from "../lib/is-inside-promise.js";
+import { isInsidePromise } from '../lib/is-inside-promise.js';
+import type { Rule } from 'eslint';
 
-const DEFAULT_CALLBACKS = ["done", "cb", "callback", "next"];
+const DEFAULT_CALLBACKS = ['done', 'cb', 'callback', 'next'];
 
 function isNamedCallback(name: string, exceptions: string[]): boolean {
-  return DEFAULT_CALLBACKS.filter((cb) => !exceptions.includes(cb)).some(
-    (cb) => name === cb,
+  return DEFAULT_CALLBACKS.filter(cb => !exceptions.includes(cb)).some(
+    cb => name === cb,
   );
 }
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "suggestion",
+    type: 'suggestion',
     docs: {
       description:
-        "Disallow calling a callback inside a `then()` or `catch()`.",
+        'Disallow calling a callback inside a `then()` or `catch()`.',
     },
     schema: [
       {
-        type: "object",
+        type: 'object',
         properties: {
           exceptions: {
-            type: "array",
-            items: { type: "string" },
+            type: 'array',
+            items: { type: 'string' },
           },
         },
         additionalProperties: false,
@@ -30,7 +30,7 @@ const rule: Rule.RuleModule = {
     ],
     messages: {
       avoidCallbackInPromise:
-        "Avoid calling back inside of a promise.",
+        'Avoid calling back inside of a promise.',
     },
   },
   create(context) {
@@ -42,8 +42,8 @@ const rule: Rule.RuleModule = {
     return {
       CallExpression(node) {
         if (
-          node.callee.type !== "Identifier" ||
-          !isNamedCallback(node.callee.name, exceptions)
+          node.callee.type !== 'Identifier'
+          || !isNamedCallback(node.callee.name, exceptions)
         ) {
           return;
         }
@@ -54,7 +54,7 @@ const rule: Rule.RuleModule = {
           if (isInsidePromise(current)) {
             context.report({
               node,
-              messageId: "avoidCallbackInPromise",
+              messageId: 'avoidCallbackInPromise',
             });
             return;
           }

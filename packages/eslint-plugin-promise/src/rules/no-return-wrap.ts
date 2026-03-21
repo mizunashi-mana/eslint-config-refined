@@ -1,14 +1,14 @@
-import type * as ESTree from "estree";
-import type { Rule } from "eslint";
-import { isPromise } from "../lib/is-promise.js";
+import { isPromise } from '../lib/is-promise.js';
+import type { Rule } from 'eslint';
+import type * as ESTree from 'estree';
 
 function isInPromise(node: Rule.Node): boolean {
   let current: Rule.Node | null = node;
   // Walk up to find the closest function expression
   while (current) {
     if (
-      current.type === "ArrowFunctionExpression" ||
-      current.type === "FunctionExpression"
+      current.type === 'ArrowFunctionExpression'
+      || current.type === 'FunctionExpression'
     ) {
       break;
     }
@@ -19,14 +19,14 @@ function isInPromise(node: Rule.Node): boolean {
   let functionNode: Rule.Node = current;
   // Skip .bind() calls
   while (
-    functionNode.parent?.type === "MemberExpression" &&
-    functionNode.parent.object === functionNode &&
-    functionNode.parent.property.type === "Identifier" &&
-    functionNode.parent.property.name === "bind" &&
-    functionNode.parent.parent?.type === "CallExpression" &&
-    (
-      functionNode.parent.parent as ESTree.CallExpression &
-        Rule.NodeParentExtension
+    functionNode.parent?.type === 'MemberExpression'
+    && functionNode.parent.object === functionNode
+    && functionNode.parent.property.type === 'Identifier'
+    && functionNode.parent.property.name === 'bind'
+    && functionNode.parent.parent?.type === 'CallExpression'
+    && (
+      functionNode.parent.parent as ESTree.CallExpression
+      & Rule.NodeParentExtension
     ).callee === functionNode.parent
   ) {
     functionNode = functionNode.parent.parent;
@@ -37,23 +37,23 @@ function isInPromise(node: Rule.Node): boolean {
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "suggestion",
+    type: 'suggestion',
     docs: {
       description:
-        "Disallow wrapping values in `Promise.resolve` or `Promise.reject` when not needed.",
+        'Disallow wrapping values in `Promise.resolve` or `Promise.reject` when not needed.',
     },
     schema: [
       {
-        type: "object",
+        type: 'object',
         properties: {
-          allowReject: { type: "boolean" },
+          allowReject: { type: 'boolean' },
         },
         additionalProperties: false,
       },
     ],
     messages: {
-      resolve: "Avoid wrapping return values in Promise.resolve",
-      reject: "Expected throw instead of Promise.reject",
+      resolve: 'Avoid wrapping return values in Promise.resolve',
+      reject: 'Expected throw instead of Promise.reject',
     },
   },
   create(context) {
@@ -65,25 +65,26 @@ const rule: Rule.RuleModule = {
       reportNode: Rule.Node,
     ) {
       if (!isInPromise(reportNode)) return;
-      if (callExpr.callee.type !== "MemberExpression") return;
-      if (callExpr.callee.object.type !== "Identifier") return;
-      if (callExpr.callee.object.name !== "Promise") return;
-      if (callExpr.callee.property.type !== "Identifier") return;
+      if (callExpr.callee.type !== 'MemberExpression') return;
+      if (callExpr.callee.object.type !== 'Identifier') return;
+      if (callExpr.callee.object.name !== 'Promise') return;
+      if (callExpr.callee.property.type !== 'Identifier') return;
 
-      if (callExpr.callee.property.name === "resolve") {
-        context.report({ node: reportNode, messageId: "resolve" });
-      } else if (!allowReject && callExpr.callee.property.name === "reject") {
-        context.report({ node: reportNode, messageId: "reject" });
+      if (callExpr.callee.property.name === 'resolve') {
+        context.report({ node: reportNode, messageId: 'resolve' });
+      }
+      else if (!allowReject && callExpr.callee.property.name === 'reject') {
+        context.report({ node: reportNode, messageId: 'reject' });
       }
     }
 
     return {
       ReturnStatement(node) {
-        if (node.argument?.type === "CallExpression") {
+        if (node.argument?.type === 'CallExpression') {
           checkCallExpression(node.argument, node);
         }
       },
-      "ArrowFunctionExpression > CallExpression"(node: Rule.Node) {
+      'ArrowFunctionExpression > CallExpression': function (node: Rule.Node) {
         checkCallExpression(node as unknown as ESTree.CallExpression, node);
       },
     };
