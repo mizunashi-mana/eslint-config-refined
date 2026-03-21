@@ -71,23 +71,25 @@ function createESLint(env: Parameters<typeof buildConfig>[0]): ESLint {
 }
 
 async function calculateConfigForSnapshot(eslint: ESLint, filePath: string) {
-  const raw = (await eslint.calculateConfigForFile(filePath)) as Record<
+  const config = (await eslint.calculateConfigForFile(filePath)) as Record<
     string,
     unknown
   > & {
     languageOptions?: Record<string, unknown>;
   };
 
-  const { languageOptions, rules, linterOptions, processor } = raw;
-  const result: Record<string, unknown> = {};
-
-  if (languageOptions) {
-    const { ecmaVersion, sourceType } = languageOptions;
-    result.languageOptions = { ecmaVersion, sourceType };
-  }
-  if (linterOptions) result.linterOptions = linterOptions;
-  if (processor) result.processor = processor;
-  if (rules) result.rules = rules;
-
-  return result;
+  return {
+    ...config,
+    language: undefined,
+    defaultLanguageOptions: undefined,
+    plugins: undefined,
+    languageOptions: config.languageOptions
+      ? {
+          ...config.languageOptions,
+          parser: undefined,
+          parserOptions: undefined,
+        }
+      : undefined,
+    settings: undefined,
+  };
 }
