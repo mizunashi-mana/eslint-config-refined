@@ -14,9 +14,9 @@ export function buildStylisticConfig(options?: StylisticOptions) {
     stylistic.configs.customize({
       indent: options?.indent ?? 2,
       semi: options?.semi ?? true,
-      quotes: options?.quotes,
-      braceStyle: options?.braceStyle,
-      commaDangle: options?.commaDangle,
+      quotes: options?.quotes ?? "single",
+      braceStyle: options?.braceStyle ?? "stroustrup",
+      commaDangle: options?.commaDangle ?? "always-multiline",
     }),
   ]);
 }
