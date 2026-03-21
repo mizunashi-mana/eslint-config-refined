@@ -3,6 +3,29 @@
   "version": "0.1.0",
   "description": "A refined, opinionated ESLint shared configuration",
   "license": "(Apache-2.0 OR MPL-2.0)",
+  "author": "mizunashi-mana",
+  "homepage": "https://github.com/mizunashi-mana/eslint-config-refined/tree/main/packages/eslint-config-refined#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mizunashi-mana/eslint-config-refined.git",
+    "directory": "packages/eslint-config-refined"
+  },
+  "bugs": {
+    "url": "https://github.com/mizunashi-mana/eslint-config-refined/issues"
+  },
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "eslint-config",
+    "typescript",
+    "stylistic",
+    "opinionated"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
+  },
   "type": "module",
   "exports": {
     ".": {
