@@ -6,14 +6,6 @@ export default [
   },
   ...buildConfig(),
   {
-    rules: {
-      // TODO: Fix :exit pseudo-class usage for ESLint v10 compatibility
-      '@mizunashi_mana/promise/always-return': 'off',
-      '@mizunashi_mana/promise/no-multiple-resolved': 'off',
-      '@mizunashi_mana/promise/no-nesting': 'off',
-    },
-  },
-  {
     files: ['src/**/*.ts'],
     rules: {
       // ESLint rule visitors use AST node names (PascalCase) and selectors as method keys

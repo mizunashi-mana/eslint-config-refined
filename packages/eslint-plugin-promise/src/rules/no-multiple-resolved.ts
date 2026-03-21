@@ -313,37 +313,45 @@ const rule: Rule.RuleModule = {
       = [new Set()];
     let lastThrowableExpression: Rule.Node | null = null;
 
-    return {
-      'FunctionExpression, ArrowFunctionExpression': function (node: Rule.Node) {
-        if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent)) { return; }
+    function enterPromiseExecutor(node: Rule.Node) {
+      if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent)) { return; }
 
-        const resolverReferences
-          = new Set<Scope.Variable['references'][0]['identifier']>();
-        const funcNode = node as Rule.Node & {
-          params: Array<{ type: string; name?: string }>;
-        };
-        const resolvers = funcNode.params.filter(
-          (p): p is { type: 'Identifier'; name: string } =>
-            p.type === 'Identifier',
-        );
+      const resolverReferences
+        = new Set<Scope.Variable['references'][0]['identifier']>();
+      const funcNode = node as Rule.Node & {
+        params: Array<{ type: string; name?: string }>;
+      };
+      const resolvers = funcNode.params.filter(
+        (p): p is { type: 'Identifier'; name: string } =>
+          p.type === 'Identifier',
+      );
 
-        const scope = context.sourceCode.getScope(node);
-        for (const resolver of resolvers) {
-          const variable = scope.set.get(resolver.name);
-          if (!variable) continue;
-          for (const reference of variable.references) {
-            resolverReferences.add(reference.identifier);
-          }
+      const scope = context.sourceCode.getScope(node);
+      for (const resolver of resolvers) {
+        const variable = scope.set.get(resolver.name);
+        if (!variable) continue;
+        for (const reference of variable.references) {
+          resolverReferences.add(reference.identifier);
         }
+      }
 
-        resolverReferencesStack.unshift(resolverReferences);
-      },
-      'FunctionExpression:exit, ArrowFunctionExpression:exit': function (
-        node: Rule.Node,
-      ) {
-        if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent)) { return; }
-        resolverReferencesStack.shift();
-      },
+      resolverReferencesStack.unshift(resolverReferences);
+    }
+
+    function exitPromiseExecutor(node: Rule.Node) {
+      if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent)) { return; }
+      resolverReferencesStack.shift();
+    }
+
+    function recordThrowableExpression(node: Rule.Node) {
+      lastThrowableExpression = node;
+    }
+
+    return {
+      'FunctionExpression': enterPromiseExecutor,
+      'ArrowFunctionExpression': enterPromiseExecutor,
+      'FunctionExpression:exit': exitPromiseExecutor,
+      'ArrowFunctionExpression:exit': exitPromiseExecutor,
       onCodePathStart() {
         codePathInfoStack.unshift(new CodePathInfo());
       },
@@ -353,11 +361,11 @@ const rule: Rule.RuleModule = {
           verifyMultipleResolvedPath(codePathInfo);
         }
       },
-      'CallExpression, MemberExpression, NewExpression, ImportExpression, YieldExpression:exit': function (
-        node: Rule.Node,
-      ) {
-        lastThrowableExpression = node;
-      },
+      'CallExpression:exit': recordThrowableExpression,
+      'MemberExpression:exit': recordThrowableExpression,
+      'NewExpression:exit': recordThrowableExpression,
+      'ImportExpression:exit': recordThrowableExpression,
+      'YieldExpression:exit': recordThrowableExpression,
       onCodePathSegmentStart(segment: Rule.CodePathSegment) {
         codePathInfoStack[0].onSegmentEnter(segment);
       },
