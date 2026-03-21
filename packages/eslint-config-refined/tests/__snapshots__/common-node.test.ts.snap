@@ -773,6 +773,7 @@ exports[`common + node ruleSets > should apply correct rules for entrypoint file
       {
         "format": [
           "camelCase",
+          "PascalCase",
           "UPPER_CASE",
         ],
         "leadingUnderscore": "allow",
@@ -2715,6 +2716,7 @@ exports[`common + node ruleSets > should apply correct rules for source files 1`
       {
         "format": [
           "camelCase",
+          "PascalCase",
           "UPPER_CASE",
         ],
         "leadingUnderscore": "allow",
