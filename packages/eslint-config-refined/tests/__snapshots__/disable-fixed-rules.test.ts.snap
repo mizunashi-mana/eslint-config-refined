@@ -1070,6 +1070,9 @@ exports[`common + node ruleSets with disableFixedRules > should apply correct ru
     ],
     "@typescript-eslint/require-array-sort-compare": [
       2,
+      {
+        "ignoreStringArrays": true,
+      },
     ],
     "@typescript-eslint/require-await": [
       0,
@@ -1097,6 +1100,12 @@ exports[`common + node ruleSets with disableFixedRules > should apply correct ru
         "allowNullableString": false,
         "allowNumber": false,
         "allowString": false,
+      },
+    ],
+    "@typescript-eslint/strict-void-return": [
+      2,
+      {
+        "allowReturnAny": false,
       },
     ],
     "@typescript-eslint/switch-exhaustiveness-check": [
@@ -1343,6 +1352,9 @@ exports[`common + node ruleSets with disableFixedRules > should apply correct ru
       },
     ],
     "n/no-unsupported-features/node-builtins": [
+      2,
+    ],
+    "n/prefer-node-protocol": [
       2,
     ],
     "n/process-exit-as-throw": [
@@ -1593,6 +1605,9 @@ exports[`common + node ruleSets with disableFixedRules > should apply correct ru
     ],
     "no-param-reassign": [
       2,
+      {
+        "props": true,
+      },
     ],
     "no-plusplus": [
       2,
@@ -1836,6 +1851,9 @@ exports[`common + node ruleSets with disableFixedRules > should apply correct ru
     "prefer-exponentiation-operator": [
       2,
     ],
+    "prefer-named-capture-group": [
+      2,
+    ],
     "prefer-numeric-literals": [
       2,
     ],
@@ -1869,7 +1887,7 @@ exports[`common + node ruleSets with disableFixedRules > should apply correct ru
     "preserve-caught-error": [
       2,
       {
-        "requireCatchParameter": false,
+        "requireCatchParameter": true,
       },
     ],
     "radix": [
@@ -1878,6 +1896,12 @@ exports[`common + node ruleSets with disableFixedRules > should apply correct ru
     ],
     "require-await": [
       0,
+    ],
+    "require-unicode-regexp": [
+      2,
+      {
+        "requireFlag": "v",
+      },
     ],
     "require-yield": [
       2,

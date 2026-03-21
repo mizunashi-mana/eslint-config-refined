@@ -13,7 +13,6 @@ export function buildPromiseConfig() {
         "@mizunashi_mana/promise/no-multiple-resolved": "error",
         "@mizunashi_mana/promise/no-promise-in-callback": "error",
         "@mizunashi_mana/promise/prefer-await-to-then": "error",
-        "@typescript-eslint/require-await": "off",
       },
     },
   ]);

@@ -12,6 +12,7 @@ export function buildNodeConfig(props: { entrypointFiles: string[] }) {
         "n/no-exports-assign": "error",
         "n/no-new-require": "error",
         "n/no-path-concat": "error",
+        "n/prefer-node-protocol": "error",
         "n/process-exit-as-throw": "error",
         "n/no-missing-import": "off",
         "n/no-unpublished-import": "off",

@@ -67,8 +67,9 @@ export function buildJsConfig(props: { entrypointFiles: string[] }) {
         "no-new-wrappers": "error",
         "no-object-constructor": "error",
         "no-octal-escape": "error",
-        "no-param-reassign": "error",
+        "no-param-reassign": ["error", { props: true }],
         "no-plusplus": "error",
+        "no-useless-assignment": "error",
         "no-promise-executor-return": ["error", { allowVoid: false }],
         "no-proto": "error",
         "no-restricted-globals": [
@@ -121,12 +122,18 @@ export function buildJsConfig(props: { entrypointFiles: string[] }) {
         "prefer-numeric-literals": "error",
         "prefer-object-has-own": "error",
         "prefer-object-spread": "error",
+        "preserve-caught-error": [
+          "error",
+          { requireCatchParameter: true },
+        ],
         "prefer-regex-literals": [
           "error",
           { disallowRedundantWrapping: true },
         ],
+        "prefer-named-capture-group": "error",
         "prefer-template": "error",
         "radix": ["error", "always"],
+        "require-unicode-regexp": ["error", { requireFlag: "v" }],
         "symbol-description": "error",
         "unicode-bom": ["error", "never"],
         "use-isnan": [
