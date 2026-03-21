@@ -186,6 +186,45 @@ exports[`buildConfig snapshot tests > common + node ruleSets > should apply corr
         ],
       },
     ],
+    "@mizunashi_mana/promise/always-return": [
+      2,
+      {
+        "ignoreLastCallback": true,
+      },
+    ],
+    "@mizunashi_mana/promise/catch-or-return": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-callback-in-promise": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-multiple-resolved": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-nesting": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-new-statics": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-promise-in-callback": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-return-in-finally": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-return-wrap": [
+      2,
+    ],
+    "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
+    "@mizunashi_mana/promise/valid-params": [
+      1,
+    ],
     "@stylistic/array-bracket-spacing": [
       2,
       "never",
@@ -2064,6 +2103,45 @@ exports[`buildConfig snapshot tests > common + node ruleSets > should apply corr
           "eslint-env",
         ],
       },
+    ],
+    "@mizunashi_mana/promise/always-return": [
+      2,
+      {
+        "ignoreLastCallback": true,
+      },
+    ],
+    "@mizunashi_mana/promise/catch-or-return": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-callback-in-promise": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-multiple-resolved": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-nesting": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-new-statics": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-promise-in-callback": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-return-in-finally": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-return-wrap": [
+      2,
+    ],
+    "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
+    "@mizunashi_mana/promise/valid-params": [
+      1,
     ],
     "@stylistic/array-bracket-spacing": [
       2,
@@ -3944,6 +4022,45 @@ exports[`buildConfig snapshot tests > common + node ruleSets with disableFixedRu
         ],
       },
     ],
+    "@mizunashi_mana/promise/always-return": [
+      2,
+      {
+        "ignoreLastCallback": true,
+      },
+    ],
+    "@mizunashi_mana/promise/catch-or-return": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-callback-in-promise": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-multiple-resolved": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-nesting": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-new-statics": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-promise-in-callback": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-return-in-finally": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-return-wrap": [
+      2,
+    ],
+    "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
+    "@mizunashi_mana/promise/valid-params": [
+      1,
+    ],
     "@stylistic/array-bracket-spacing": [
       2,
       "never",
@@ -5763,6 +5880,45 @@ exports[`buildConfig snapshot tests > common ruleSet > should apply correct rule
         ],
       },
     ],
+    "@mizunashi_mana/promise/always-return": [
+      2,
+      {
+        "ignoreLastCallback": true,
+      },
+    ],
+    "@mizunashi_mana/promise/catch-or-return": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-callback-in-promise": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-multiple-resolved": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-nesting": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-new-statics": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-promise-in-callback": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-return-in-finally": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-return-wrap": [
+      2,
+    ],
+    "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
+    "@mizunashi_mana/promise/valid-params": [
+      1,
+    ],
     "@stylistic/array-bracket-spacing": [
       2,
       "never",
@@ -7518,6 +7674,45 @@ exports[`buildConfig snapshot tests > common ruleSet > should apply correct rule
           "eslint-env",
         ],
       },
+    ],
+    "@mizunashi_mana/promise/always-return": [
+      2,
+      {
+        "ignoreLastCallback": true,
+      },
+    ],
+    "@mizunashi_mana/promise/catch-or-return": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-callback-in-promise": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-multiple-resolved": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-nesting": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-new-statics": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-promise-in-callback": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-return-in-finally": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-return-wrap": [
+      2,
+    ],
+    "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
+    "@mizunashi_mana/promise/valid-params": [
+      1,
     ],
     "@stylistic/array-bracket-spacing": [
       2,
@@ -9275,6 +9470,45 @@ exports[`buildConfig snapshot tests > common ruleSet > should apply correct rule
         ],
       },
     ],
+    "@mizunashi_mana/promise/always-return": [
+      2,
+      {
+        "ignoreLastCallback": true,
+      },
+    ],
+    "@mizunashi_mana/promise/catch-or-return": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-callback-in-promise": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-multiple-resolved": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-nesting": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-new-statics": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-promise-in-callback": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-return-in-finally": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-return-wrap": [
+      2,
+    ],
+    "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
+    "@mizunashi_mana/promise/valid-params": [
+      1,
+    ],
     "@stylistic/array-bracket-spacing": [
       2,
       "never",
@@ -11030,6 +11264,45 @@ exports[`buildConfig snapshot tests > common ruleSet > should apply correct rule
           "eslint-env",
         ],
       },
+    ],
+    "@mizunashi_mana/promise/always-return": [
+      2,
+      {
+        "ignoreLastCallback": true,
+      },
+    ],
+    "@mizunashi_mana/promise/catch-or-return": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-callback-in-promise": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-multiple-resolved": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-nesting": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-new-statics": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-promise-in-callback": [
+      2,
+    ],
+    "@mizunashi_mana/promise/no-return-in-finally": [
+      1,
+    ],
+    "@mizunashi_mana/promise/no-return-wrap": [
+      2,
+    ],
+    "@mizunashi_mana/promise/param-names": [
+      2,
+    ],
+    "@mizunashi_mana/promise/prefer-await-to-then": [
+      2,
+    ],
+    "@mizunashi_mana/promise/valid-params": [
+      1,
     ],
     "@stylistic/array-bracket-spacing": [
       2,

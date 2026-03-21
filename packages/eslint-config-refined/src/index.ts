@@ -4,6 +4,7 @@ import { buildGlobalsConfig } from "./globals.config.js";
 import { buildImportsConfig } from "./imports.config.js";
 import { buildJsConfig } from "./js.config.js";
 import { buildNodeConfig } from "./node.config.js";
+import { buildPromiseConfig } from "./promise.config.js";
 import { buildStylisticConfig } from "./stylistic.config.js";
 import { buildTsConfig } from "./ts.config.js";
 
@@ -33,6 +34,7 @@ export function buildConfig(env?: BuildConfigEnv) {
           buildTsConfig(),
           buildStylisticConfig(),
           buildImportsConfig({ disableFixedRules }),
+          buildPromiseConfig(),
           buildCommentsConfig(),
         );
         break;
