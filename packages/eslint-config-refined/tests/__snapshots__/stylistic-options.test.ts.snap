@@ -713,6 +713,7 @@ exports[`common ruleSet with custom stylistic options > should apply correct rul
       {
         "format": [
           "camelCase",
+          "PascalCase",
           "UPPER_CASE",
         ],
         "leadingUnderscore": "allow",

@@ -713,6 +713,7 @@ exports[`common + react ruleSets > should apply correct rules for source files 1
       {
         "format": [
           "camelCase",
+          "PascalCase",
           "UPPER_CASE",
         ],
         "leadingUnderscore": "allow",
@@ -2649,6 +2650,7 @@ exports[`common + react ruleSets > should apply correct rules for test files 1`]
       {
         "format": [
           "camelCase",
+          "PascalCase",
           "UPPER_CASE",
         ],
         "leadingUnderscore": "allow",
@@ -2826,7 +2828,7 @@ exports[`common + react ruleSets > should apply correct rules for test files 1`]
       0,
     ],
     "@typescript-eslint/no-unsafe-call": [
-      2,
+      0,
     ],
     "@typescript-eslint/no-unsafe-declaration-merging": [
       2,
@@ -2838,7 +2840,7 @@ exports[`common + react ruleSets > should apply correct rules for test files 1`]
       2,
     ],
     "@typescript-eslint/no-unsafe-member-access": [
-      2,
+      0,
     ],
     "@typescript-eslint/no-unsafe-return": [
       0,
