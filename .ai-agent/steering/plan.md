@@ -6,34 +6,34 @@
 
 ## 完了済み
 
-- プロジェクト基盤のセットアップ（モノレポ構成、ビルド、テスト、CI）
+### フェーズ 1: 基盤構築（@mizunashi_mana/eslint-config-refined） ✅
+
+- モノレポ基盤の構築（npm workspace、tsdown、Vitest、ESLint self-hosting）
+- 既存3リポジトリの eslint-config を統合・移植
+  - globals / js / ts / stylistic / imports / comments / node / promise の各サブ設定
+  - `buildConfig()` ユーティリティ
+- ESLint v10 対応の調整（v9 → v10 の破壊的変更への対応）
+- テストの整備
+- eslint-config-refined を自パッケージに適用（self-hosting）
+
+### フェーズ 2: eslint-plugin-promise の v10 書き直し ✅
+
+- eslint-plugin-promise の既存ルールの調査・設計
+- ESLint v10 の Rule API に準拠した再実装（@mizunashi_mana/eslint-plugin-promise、11ルール）
+- テストの整備
+- eslint-config-refined に promise ルールセットを追加・統合
+
+### フェーズ 3: フレームワーク対応 ✅
+
+- React 対応ルールセットの追加（eslint-plugin-react-x）
+- Playwright テスト対応ルールセットの追加（eslint-plugin-playwright）
+- Storybook 対応ルールセットの追加（eslint-plugin-storybook）
 
 ## 進行中
 
 （なし）
 
 ## 今後の計画
-
-### フェーズ 1: 基盤構築（@mizunashi_mana/eslint-config-refined）
-
-- モノレポ基盤の構築（npm workspace、tsup、Vitest、ESLint self-hosting）
-- 既存3リポジトリの eslint-config を統合・移植
-  - globals / js / ts / stylistic / imports / comments / node の各サブ設定（promise は含めない）
-  - `buildConfig()` ユーティリティ
-- ESLint v10 対応の調整（v9 → v10 の破壊的変更への対応）
-- テストの整備
-
-### フェーズ 2: eslint-plugin-promise の v10 書き直し
-
-- eslint-plugin-promise の既存ルールの調査・設計
-- ESLint v10 の Rule API に準拠した再実装（@mizunashi_mana/eslint-plugin-promise）
-- テストの整備
-- eslint-config-refined に promise ルールセットを追加・統合
-
-### フェーズ 3: React 対応 ✅
-
-- React 対応ルールセットの追加（eslint-plugin-react-x）
-- その他フレームワーク対応（必要に応じて）
 
 ### フェーズ 4: カスタマイズオプションの拡充
 
