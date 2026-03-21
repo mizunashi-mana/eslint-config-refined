@@ -35,7 +35,7 @@
 |----|--------|------|--------|------|
 | T1 | eslint-plugin-promise ルール調査 | - | 高 | 完了 |
 | T2 | パッケージ基盤構築 | - | 高 | 完了 |
-| T3 | recommended ルール実装 | T1, T2 | 高 | 未着手 |
+| T3 | recommended ルール実装 | T1, T2 | 高 | 完了 |
 | T4 | 追加ルール実装 | T3 | 中 | 未着手 |
 | T5 | eslint-config-refined 統合 | T3 | 高 | 未着手 |
 
@@ -108,6 +108,7 @@ T2 ─↗    ↘
 - 2026-03-21: プロジェクト開始
 - 2026-03-21: T1 完了 - ルール調査結果を surveys/20260321-eslint-plugin-promise-rules/ に記録
 - 2026-03-21: T2 完了 - packages/eslint-plugin-promise のスキャフォールド作成
+- 2026-03-21: T3 完了 - 9 ルール実装（always-return, catch-or-return, no-multiple-resolved, no-nesting, no-new-statics, no-promise-in-callback, no-return-wrap, param-names, valid-params）
 
 ## メモ
 
