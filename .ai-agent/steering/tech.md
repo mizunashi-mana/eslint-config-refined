@@ -3,10 +3,14 @@
 ## 技術スタック
 
 - **言語**: TypeScript 5.5+
+- **ランタイム**: Node.js v24
 - **対象 ESLint**: v10（ESLint v10.0.0+）
 - **ビルド**: tsup（ESM 出力 + 型定義生成）
 - **テスト**: Vitest
 - **パッケージマネージャ**: npm workspace（モノレポ管理）
+- **開発環境**: devenv（Nix ベース。Node.js、git-hooks 等を管理）
+- **Lint 実行**: prek（pre-commit フック実行ツール。CI でも `prek run --all-files` で lint を実行）
+- **CI lint**: actionlint（GitHub Actions ワークフローの静的解析。devenv の git-hooks で自動実行）
 
 ## アーキテクチャ概要
 
@@ -51,6 +55,8 @@
 
 ## 開発環境
 
+devenv による Nix ベースの開発環境を使用。`devenv shell` で Node.js や開発ツールが利用可能になる。
+
 ```bash
 # セットアップ
 npm install
@@ -61,7 +67,10 @@ npm run build --workspaces
 # テスト
 npm test --workspaces
 
-# lint
+# lint（prek 経由で全ファイル対象）
+prek run --all-files
+
+# 個別パッケージの eslint
 npm run lint:eslint --workspaces
 
 # 型チェック
@@ -75,5 +84,8 @@ npm run typecheck --workspaces
 
 ## CI/CD
 
-- GitHub Actions による自動テスト・lint・型チェック
+- GitHub Actions による CI（ワークフロー分離）
+  - **ci-lint**: devenv + prek による build・typecheck・lint（composite action でセットアップ共通化）
+  - **ci-test**: Node.js + npm による build・test
+- composite actions（`.github/actions/`）でセットアップ手順を共通化
 - npm への公開パイプライン（予定）
