@@ -36,37 +36,33 @@ const rules: ESLint.Plugin['rules'] = {
   'valid-params': validParams,
 };
 
-const configs: Record<string, Linter.Config[]> = {};
-
 const plugin = {
   meta: {
     name: packageJson.name,
     version: packageJson.version,
   },
   rules,
-  configs,
+  configs: {
+    recommended: [] as Linter.Config[],
+  },
 } satisfies ESLint.Plugin;
 
-Object.assign(configs, {
-  recommended: [
-    {
-      plugins: {
-        [PLUGIN_NAMESPACE]: plugin,
-      },
-      rules: {
-        [`${PLUGIN_NAMESPACE}/always-return`]: 'error',
-        [`${PLUGIN_NAMESPACE}/catch-or-return`]: 'error',
-        [`${PLUGIN_NAMESPACE}/no-new-statics`]: 'error',
-        [`${PLUGIN_NAMESPACE}/no-return-wrap`]: 'error',
-        [`${PLUGIN_NAMESPACE}/param-names`]: 'error',
-        [`${PLUGIN_NAMESPACE}/no-nesting`]: 'warn',
-        [`${PLUGIN_NAMESPACE}/no-promise-in-callback`]: 'warn',
-        [`${PLUGIN_NAMESPACE}/valid-params`]: 'warn',
-        [`${PLUGIN_NAMESPACE}/no-callback-in-promise`]: 'warn',
-        [`${PLUGIN_NAMESPACE}/no-return-in-finally`]: 'warn',
-      } satisfies Record<string, Linter.RuleEntry>,
-    },
-  ] satisfies Linter.Config[],
-});
+plugin.configs.recommended[0] = {
+  plugins: {
+    [PLUGIN_NAMESPACE]: plugin,
+  },
+  rules: {
+    [`${PLUGIN_NAMESPACE}/always-return`]: 'error',
+    [`${PLUGIN_NAMESPACE}/catch-or-return`]: 'error',
+    [`${PLUGIN_NAMESPACE}/no-new-statics`]: 'error',
+    [`${PLUGIN_NAMESPACE}/no-return-wrap`]: 'error',
+    [`${PLUGIN_NAMESPACE}/param-names`]: 'error',
+    [`${PLUGIN_NAMESPACE}/no-nesting`]: 'warn',
+    [`${PLUGIN_NAMESPACE}/no-promise-in-callback`]: 'warn',
+    [`${PLUGIN_NAMESPACE}/valid-params`]: 'warn',
+    [`${PLUGIN_NAMESPACE}/no-callback-in-promise`]: 'warn',
+    [`${PLUGIN_NAMESPACE}/no-return-in-finally`]: 'warn',
+  } satisfies Record<string, Linter.RuleEntry>,
+};
 
 export default plugin;

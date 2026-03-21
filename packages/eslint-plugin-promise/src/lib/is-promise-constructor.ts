@@ -18,10 +18,12 @@ export function isPromiseConstructorWithInlineExecutor(
   callee: ESTree.Identifier & { name: 'Promise' };
   arguments: [ESTree.FunctionExpression | ESTree.ArrowFunctionExpression];
 } {
+  if (!isPromiseConstructor(node)) return false;
+  if (node.arguments.length !== 1) return false;
+  const executor = node.arguments[0];
   return (
-    isPromiseConstructor(node)
-    && node.arguments.length === 1
-    && (node.arguments[0].type === 'FunctionExpression'
-      || node.arguments[0].type === 'ArrowFunctionExpression')
+    executor !== undefined
+    && (executor.type === 'FunctionExpression'
+      || executor.type === 'ArrowFunctionExpression')
   );
 }

@@ -14,16 +14,6 @@ export default [
       'no-restricted-imports': 'off',
       // ESLint Rule API requires frequent type assertions for AST node types
       '@typescript-eslint/no-unsafe-type-assertion': 'off',
-      // TODO: Fix pre-existing code patterns below
-      '@typescript-eslint/strict-boolean-expressions': 'off',
-      '@typescript-eslint/no-unnecessary-condition': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/no-unnecessary-type-conversion': 'off',
-      'complexity': 'off',
-      'eqeqeq': 'off',
-      'no-plusplus': 'off',
-      'require-unicode-regexp': 'off',
-      '@stylistic/max-statements-per-line': 'off',
     },
   },
   {

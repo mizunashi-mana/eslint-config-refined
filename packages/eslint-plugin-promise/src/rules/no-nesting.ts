@@ -43,20 +43,22 @@ const rule: Rule.RuleModule = {
       },
       CallExpression(node) {
         if (!hasPromiseCallback(node)) return;
-        if (!callbackScopes.length) return;
+        if (callbackScopes.length === 0) return;
 
         // Allow nesting when the inner promise callback references variables
         // defined in the outer callback scope (e.g., using the outer callback's
         // parameter). This indicates the nesting is intentional because the inner
         // promise depends on the outer callback's value.
         const closestCallbackScope = callbackScopes[0];
+        // noUncheckedIndexedAccess guard — length check above guarantees existence
+        if (!closestCallbackScope) return;
         for (const reference of iterateDefinedReferences(
           closestCallbackScope,
         )) {
           const isReferencedInCallbackArgs = node.arguments.some(
             arg =>
-              arg.range
-              && reference.identifier.range
+              arg.range !== undefined
+              && reference.identifier.range !== undefined
               && arg.range[0] <= reference.identifier.range[0]
               && reference.identifier.range[1] <= arg.range[1],
           );

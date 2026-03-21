@@ -12,7 +12,7 @@ export function isInsidePromise(node: Rule.Node): boolean {
   if (!isFunctionExpression) return false;
 
   const parent = node.parent;
-  if (parent?.type !== 'CallExpression') return false;
+  if (parent.type !== 'CallExpression') return false;
 
   const { callee } = parent as ESTree.CallExpression;
   if (callee.type !== 'MemberExpression') return false;

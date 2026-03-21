@@ -24,9 +24,7 @@ function isMemberCall(
 
 function isFirstArgument(node: Rule.Node): boolean {
   const parent = node.parent;
-  return Boolean(
-    parent?.type === 'CallExpression' && parent.arguments[0] === node,
-  );
+  return parent !== null && parent.type === 'CallExpression' && parent.arguments[0] === node;
 }
 
 type InlineThenFunction = Rule.Node
@@ -37,7 +35,7 @@ function isInlineThenFunctionExpression(
 ): node is InlineThenFunction {
   return (
     isFunctionWithBlockStatement(node)
-    && node.parent != null
+    && node.parent !== null
     && isMemberCall('then', node.parent)
     && isFirstArgument(node)
   );
@@ -69,9 +67,8 @@ function isLastCallback(node: InlineThenFunction): boolean {
     }
     else if (parent.type === 'MemberExpression') {
       if (
-        parent.parent
-        && (isMemberCall('catch', parent.parent)
-          || isMemberCall('finally', parent.parent))
+        isMemberCall('catch', parent.parent)
+        || isMemberCall('finally', parent.parent)
       ) {
         nextTarget = parent.parent;
       }
@@ -101,7 +98,7 @@ function isIgnoredAssignment(
   const expr = node.expression;
   if (expr.type !== 'AssignmentExpression') return false;
   const rootName = getRootObjectName(expr.left);
-  return rootName != null && ignoredVars.includes(rootName);
+  return rootName !== undefined && ignoredVars.includes(rootName);
 }
 
 interface BranchInfo {
@@ -115,7 +112,11 @@ interface FuncInfo {
 }
 
 function peek<T>(arr: T[]): T {
-  return arr[arr.length - 1];
+  const value = arr[arr.length - 1];
+  if (value === undefined) {
+    throw new Error('peek called on empty array');
+  }
+  return value;
 }
 
 const rule: Rule.RuleModule = {
@@ -194,12 +195,13 @@ const rule: Rule.RuleModule = {
       },
 
       onCodePathEnd(path: Rule.CodePath, node: Rule.Node) {
-        const funcInfo = funcInfoStack.pop()!;
+        const funcInfo = funcInfoStack.pop();
+        if (!funcInfo) return;
 
         if (!isInlineThenFunctionExpression(node)) return;
         if (ignoreLastCallback && isLastCallback(node)) return;
 
-        if (ignoreAssignmentVariable.length && isLastCallback(node)) {
+        if (ignoreAssignmentVariable.length > 0 && isLastCallback(node)) {
           const body = (
             node as ESTree.FunctionExpression | ESTree.ArrowFunctionExpression
           ).body;

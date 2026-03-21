@@ -49,8 +49,7 @@ const rule: Rule.RuleModule = {
           case 'reject':
             // Only check Promise.resolve() / Promise.reject() static calls
             if (
-              node.callee.type === 'MemberExpression'
-              && node.callee.object.type === 'Identifier'
+              node.callee.object.type === 'Identifier'
               && node.callee.object.name === 'Promise'
               && numArgs > 1
             ) {

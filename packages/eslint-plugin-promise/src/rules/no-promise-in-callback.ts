@@ -32,7 +32,7 @@ const rule: Rule.RuleModule = {
         if (!isPromise(node)) return;
 
         // If the promise is returned, it's fine
-        if (node.parent?.type === 'ReturnStatement') return;
+        if (node.parent.type === 'ReturnStatement') return;
 
         // Walk up ancestors to find if we're inside a callback
         let current = node.parent as Rule.Node | undefined;

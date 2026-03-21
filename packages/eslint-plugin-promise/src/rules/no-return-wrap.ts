@@ -19,11 +19,11 @@ function isInPromise(node: Rule.Node): boolean {
   let functionNode: Rule.Node = current;
   // Skip .bind() calls
   while (
-    functionNode.parent?.type === 'MemberExpression'
+    functionNode.parent.type === 'MemberExpression'
     && functionNode.parent.object === functionNode
     && functionNode.parent.property.type === 'Identifier'
     && functionNode.parent.property.name === 'bind'
-    && functionNode.parent.parent?.type === 'CallExpression'
+    && functionNode.parent.parent.type === 'CallExpression'
     && (
       functionNode.parent.parent as ESTree.CallExpression
       & Rule.NodeParentExtension
@@ -32,7 +32,7 @@ function isInPromise(node: Rule.Node): boolean {
     functionNode = functionNode.parent.parent;
   }
 
-  return Boolean(functionNode.parent && isPromise(functionNode.parent));
+  return isPromise(functionNode.parent);
 }
 
 const rule: Rule.RuleModule = {
