@@ -35,12 +35,13 @@
 - **promise.config.ts**: Promise 関連ルール
 - **comments.config.ts**: ESLint コメントディレクティブのルール
 - **node.config.ts**: Node.js 固有ルール
+- **react.config.ts**: React 固有ルール（eslint-plugin-react-x）
 
 ### ルールセット
 
 - **`common`**: js + ts + stylistic + imports + promise + comments（全環境共通）
 - **`node`**: Node.js 固有ルール（サーバーサイド向け）
-- 今後 `react` 等のフレームワーク固有ルールセットを追加予定
+- **`react`**: React 固有ルール（eslint-plugin-react-x ベース）
 
 ## 主要依存ライブラリ
 
@@ -50,6 +51,7 @@
 - `eslint-plugin-import-x` - インポート整理
 - `eslint-plugin-n` - Node.js ルール
 - `eslint-plugin-unused-imports` - 未使用インポート検出
+- `eslint-plugin-react-x` - React ルール（@eslint-react エコシステム、ESLint v10 対応）
 - `@eslint-community/eslint-plugin-eslint-comments` - ESLint コメント管理
 - `globals` - グローバル変数定義
 
