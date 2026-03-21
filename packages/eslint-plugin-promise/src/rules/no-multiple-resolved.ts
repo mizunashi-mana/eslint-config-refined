@@ -324,6 +324,7 @@ const rule: Rule.RuleModule = {
 
       const resolverReferences
         = new Set<Scope.Variable['references'][0]['identifier']>();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Narrowing Rule.Node to access function params for Promise executor
       const funcNode = node as Rule.Node & {
         params: Array<{ type: string; name?: string }>;
       };
@@ -400,11 +401,14 @@ const rule: Rule.RuleModule = {
         ) {
           const resolverReferences = resolverReferencesStack[0];
           if (!resolverReferences) return;
+          /* eslint-disable @typescript-eslint/no-unsafe-type-assertion -- Accessing callee property of CallExpression via type assertion since ESLint types don't provide narrowed union */
           const callee = (
             lastThrowableExpression as unknown as {
               callee: Rule.Node;
             }
           ).callee;
+          /* eslint-enable @typescript-eslint/no-unsafe-type-assertion */
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Set<Identifier>.has() requires compatible type; callee is structurally equivalent
           if (resolverReferences.has(callee as never)) {
             promiseCodePathContext.addResolvedTryBlockCodePathSegment(segment);
           }
@@ -418,10 +422,12 @@ const rule: Rule.RuleModule = {
         if (!codePathInfo) return;
         codePathInfo.onSegmentExit(segment);
       },
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST selector
       'CallExpression > Identifier.callee': function (node: Rule.Node) {
         const codePathInfo = codePathInfoStack[0];
         const resolverReferences = resolverReferencesStack[0];
         if (!codePathInfo || !resolverReferences) return;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Set<Identifier>.has() requires compatible type; node is structurally equivalent
         if (!resolverReferences.has(node as never)) return;
 
         for (const segmentInfo of codePathInfo.getCurrentSegmentInfos()) {

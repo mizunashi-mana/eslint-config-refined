@@ -27,15 +27,18 @@ function findDirectReturns(
     const keys = visitorKeys[node.type];
     if (!keys) return;
     for (const key of keys) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Accessing dynamic AST child properties via visitor keys requires Record assertion
       const val = (node as unknown as Record<string, unknown>)[key];
       if (Array.isArray(val)) {
         for (const child of val) {
           if (typeof child === 'object' && child !== null && 'type' in child) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Array.isArray narrows to `any[]`; element is validated by type-in check
             visit(child as ESTree.Node);
           }
         }
       }
       else if (typeof val === 'object' && val !== null && 'type' in val) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Dynamic property access returns `unknown`; validated by type-in check
         visit(val as ESTree.Node);
       }
     }
@@ -60,6 +63,7 @@ const rule: Rule.RuleModule = {
   },
   create(context) {
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST node name
       CallExpression(node) {
         if (
           node.callee.type !== 'MemberExpression'

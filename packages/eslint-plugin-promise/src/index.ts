@@ -14,6 +14,7 @@ import validParams from './rules/valid-params.js';
 import type { ESLint, Linter } from 'eslint';
 
 const require = createRequire(import.meta.url);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- require() returns `any`; type is validated by usage below
 const packageJson = require('../package.json') as {
   name: string;
   version: string;

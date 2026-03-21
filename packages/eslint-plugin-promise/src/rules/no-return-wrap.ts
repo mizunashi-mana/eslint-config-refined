@@ -57,6 +57,7 @@ const rule: Rule.RuleModule = {
     },
   },
   create(context) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ESLint rule options are typed as `unknown[]`
     const options = (context.options[0] ?? {}) as { allowReject?: boolean };
     const allowReject = options.allowReject ?? false;
 
@@ -79,12 +80,15 @@ const rule: Rule.RuleModule = {
     }
 
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST node name
       ReturnStatement(node) {
         if (node.argument?.type === 'CallExpression') {
           checkCallExpression(node.argument, node);
         }
       },
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST selector
       'ArrowFunctionExpression > CallExpression': function (node: Rule.Node) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Rule.Node to ESTree.CallExpression; selector guarantees the node type
         checkCallExpression(node as unknown as ESTree.CallExpression, node);
       },
     };

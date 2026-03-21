@@ -21,6 +21,7 @@ const rule: Rule.RuleModule = {
     },
   },
   create(context) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ESLint rule options are typed as `unknown[]`
     const options = (context.options[0] ?? {}) as { strict?: boolean };
     const strict = options.strict ?? false;
 
@@ -29,6 +30,7 @@ const rule: Rule.RuleModule = {
     }
 
     function isInsideAsyncFunction(node: Rule.Node): boolean {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Rule.Node.parent is always Rule.Node but we need optional for loop termination
       let current = node.parent as Rule.Node | undefined;
       while (current) {
         if (
@@ -39,12 +41,14 @@ const rule: Rule.RuleModule = {
         ) {
           return true;
         }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Rule.Node.parent is always Rule.Node but we need optional for loop termination
         current = current.parent as Rule.Node | undefined;
       }
       return false;
     }
 
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST selector
       'CallExpression > MemberExpression.callee': function (node: Rule.Node) {
         if (node.type !== 'MemberExpression') return;
         if (node.property.type !== 'Identifier') return;
