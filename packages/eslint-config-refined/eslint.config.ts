@@ -1,23 +1,14 @@
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
+import { buildConfig } from './src/index.ts';
 
-export default tseslint.config(
+export default [
   {
-    ignores: ["dist/**"],
+    ignores: ['dist/**'],
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  ...buildConfig(),
   {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-      },
-    },
+    files: ['tests/**/*.ts'],
     rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        { argsIgnorePattern: "^_" },
-      ],
+      'no-restricted-imports': 'off',
     },
   },
-);
+];

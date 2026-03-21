@@ -1,23 +1,23 @@
-import type { Rule } from "eslint";
-import { isPromise } from "../lib/is-promise.js";
+import { isPromise } from '../lib/is-promise.js';
+import type { Rule } from 'eslint';
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "problem",
+    type: 'problem',
     docs: {
-      description: "Enforce the use of `catch()` on un-returned promises.",
+      description: 'Enforce the use of `catch()` on un-returned promises.',
     },
     schema: [
       {
-        type: "object",
+        type: 'object',
         properties: {
-          allowFinally: { type: "boolean" },
-          allowThen: { type: "boolean" },
-          allowThenStrict: { type: "boolean" },
+          allowFinally: { type: 'boolean' },
+          allowThen: { type: 'boolean' },
+          allowThenStrict: { type: 'boolean' },
           terminationMethod: {
             oneOf: [
-              { type: "string" },
-              { type: "array", items: { type: "string" } },
+              { type: 'string' },
+              { type: 'array', items: { type: 'string' } },
             ],
           },
         },
@@ -25,7 +25,7 @@ const rule: Rule.RuleModule = {
       },
     ],
     messages: {
-      terminationMethod: "Expected {{ terminationMethod }}() or return",
+      terminationMethod: 'Expected {{ terminationMethod }}() or return',
     },
   },
   create(context) {
@@ -38,29 +38,29 @@ const rule: Rule.RuleModule = {
     const allowThen = options.allowThen ?? false;
     const allowThenStrict = options.allowThenStrict ?? false;
     const allowFinally = options.allowFinally ?? false;
-    const terminationMethod =
-      typeof options.terminationMethod === "string"
+    const terminationMethod
+      = typeof options.terminationMethod === 'string'
         ? [options.terminationMethod]
-        : (options.terminationMethod ?? ["catch"]);
+        : (options.terminationMethod ?? ['catch']);
 
     function isAllowedPromiseTermination(
       expression: Rule.Node,
     ): boolean {
       // .then(fn, fn) with two arguments
       if (
-        (allowThen || allowThenStrict) &&
-        expression.type === "CallExpression" &&
-        expression.callee.type === "MemberExpression" &&
-        expression.callee.property.type === "Identifier" &&
-        expression.callee.property.name === "then" &&
-        expression.arguments.length === 2
+        (allowThen || allowThenStrict)
+        && expression.type === 'CallExpression'
+        && expression.callee.type === 'MemberExpression'
+        && expression.callee.property.type === 'Identifier'
+        && expression.callee.property.name === 'then'
+        && expression.arguments.length === 2
       ) {
         if (allowThen && !allowThenStrict) return true;
         // allowThenStrict: first arg must be null
         const firstArg = expression.arguments[0];
         if (
-          firstArg.type === "Literal" &&
-          firstArg.value === null
+          firstArg.type === 'Literal'
+          && firstArg.value === null
         ) {
           return true;
         }
@@ -68,13 +68,13 @@ const rule: Rule.RuleModule = {
 
       // .finally() after an allowed termination
       if (
-        allowFinally &&
-        expression.type === "CallExpression" &&
-        expression.callee.type === "MemberExpression" &&
-        expression.callee.property.type === "Identifier" &&
-        expression.callee.property.name === "finally" &&
-        isPromise(expression.callee.object) &&
-        isAllowedPromiseTermination(
+        allowFinally
+        && expression.type === 'CallExpression'
+        && expression.callee.type === 'MemberExpression'
+        && expression.callee.property.type === 'Identifier'
+        && expression.callee.property.name === 'finally'
+        && isPromise(expression.callee.object)
+        && isAllowedPromiseTermination(
           expression.callee.object as Rule.Node,
         )
       ) {
@@ -83,20 +83,20 @@ const rule: Rule.RuleModule = {
 
       // terminationMethod (default: catch)
       if (
-        expression.type === "CallExpression" &&
-        expression.callee.type === "MemberExpression" &&
-        expression.callee.property.type === "Identifier" &&
-        terminationMethod.includes(expression.callee.property.name)
+        expression.type === 'CallExpression'
+        && expression.callee.type === 'MemberExpression'
+        && expression.callee.property.type === 'Identifier'
+        && terminationMethod.includes(expression.callee.property.name)
       ) {
         return true;
       }
 
       // Bracket notation: ['catch']()
       if (
-        expression.type === "CallExpression" &&
-        expression.callee.type === "MemberExpression" &&
-        expression.callee.property.type === "Literal" &&
-        expression.callee.property.value === "catch"
+        expression.type === 'CallExpression'
+        && expression.callee.type === 'MemberExpression'
+        && expression.callee.property.type === 'Literal'
+        && expression.callee.property.value === 'catch'
       ) {
         return true;
       }
@@ -111,8 +111,8 @@ const rule: Rule.RuleModule = {
 
         context.report({
           node,
-          messageId: "terminationMethod",
-          data: { terminationMethod: terminationMethod.join("/") },
+          messageId: 'terminationMethod',
+          data: { terminationMethod: terminationMethod.join('/') },
         });
       },
     };

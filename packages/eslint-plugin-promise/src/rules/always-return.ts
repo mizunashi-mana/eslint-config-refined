@@ -1,10 +1,10 @@
-import type * as ESTree from "estree";
-import type { Rule } from "eslint";
+import type { Rule } from 'eslint';
+import type * as ESTree from 'estree';
 
 function isFunctionWithBlockStatement(node: ESTree.Node): boolean {
-  if (node.type === "FunctionExpression") return true;
-  if (node.type === "ArrowFunctionExpression") {
-    return node.body.type === "BlockStatement";
+  if (node.type === 'FunctionExpression') return true;
+  if (node.type === 'ArrowFunctionExpression') {
+    return node.body.type === 'BlockStatement';
   }
   return false;
 }
@@ -14,32 +14,32 @@ function isMemberCall(
   node: ESTree.Node,
 ): node is ESTree.CallExpression {
   return (
-    node.type === "CallExpression" &&
-    node.callee.type === "MemberExpression" &&
-    !node.callee.computed &&
-    node.callee.property.type === "Identifier" &&
-    node.callee.property.name === memberName
+    node.type === 'CallExpression'
+    && node.callee.type === 'MemberExpression'
+    && !node.callee.computed
+    && node.callee.property.type === 'Identifier'
+    && node.callee.property.name === memberName
   );
 }
 
 function isFirstArgument(node: Rule.Node): boolean {
   const parent = node.parent;
   return Boolean(
-    parent?.type === "CallExpression" && parent.arguments[0] === node,
+    parent?.type === 'CallExpression' && parent.arguments[0] === node,
   );
 }
 
-type InlineThenFunction = Rule.Node &
-  (ESTree.FunctionExpression | ESTree.ArrowFunctionExpression);
+type InlineThenFunction = Rule.Node
+  & (ESTree.FunctionExpression | ESTree.ArrowFunctionExpression);
 
 function isInlineThenFunctionExpression(
   node: Rule.Node,
 ): node is InlineThenFunction {
   return (
-    isFunctionWithBlockStatement(node) &&
-    node.parent != null &&
-    isMemberCall("then", node.parent) &&
-    isFirstArgument(node)
+    isFunctionWithBlockStatement(node)
+    && node.parent != null
+    && isMemberCall('then', node.parent)
+    && isFirstArgument(node)
   );
 }
 
@@ -47,29 +47,31 @@ function isLastCallback(node: InlineThenFunction): boolean {
   let target: Rule.Node = node.parent;
   let parent = target.parent as Rule.Node | undefined;
   while (parent) {
-    if (parent.type === "ExpressionStatement") return true;
+    if (parent.type === 'ExpressionStatement') return true;
     if (
-      parent.type === "UnaryExpression" &&
-      (parent as ESTree.UnaryExpression).operator === "void"
+      parent.type === 'UnaryExpression'
+      && (parent as ESTree.UnaryExpression).operator === 'void'
     ) {
       return true;
     }
 
     let nextTarget: Rule.Node | null = null;
-    if (parent.type === "SequenceExpression") {
+    if (parent.type === 'SequenceExpression') {
       const expressions = (parent as ESTree.SequenceExpression).expressions;
       if (expressions[expressions.length - 1] !== target) return true;
       nextTarget = parent;
-    } else if (
-      parent.type === "ChainExpression" ||
-      parent.type === "AwaitExpression"
+    }
+    else if (
+      parent.type === 'ChainExpression'
+      || parent.type === 'AwaitExpression'
     ) {
       nextTarget = parent;
-    } else if (parent.type === "MemberExpression") {
+    }
+    else if (parent.type === 'MemberExpression') {
       if (
-        parent.parent &&
-        (isMemberCall("catch", parent.parent) ||
-          isMemberCall("finally", parent.parent))
+        parent.parent
+        && (isMemberCall('catch', parent.parent)
+          || isMemberCall('finally', parent.parent))
       ) {
         nextTarget = parent.parent;
       }
@@ -86,8 +88,8 @@ function isLastCallback(node: InlineThenFunction): boolean {
 }
 
 function getRootObjectName(node: ESTree.Node): string | undefined {
-  if (node.type === "Identifier") return node.name;
-  if (node.type === "MemberExpression") return getRootObjectName(node.object);
+  if (node.type === 'Identifier') return node.name;
+  if (node.type === 'MemberExpression') return getRootObjectName(node.object);
   return undefined;
 }
 
@@ -95,9 +97,9 @@ function isIgnoredAssignment(
   node: ESTree.Statement,
   ignoredVars: string[],
 ): boolean {
-  if (node.type !== "ExpressionStatement") return false;
+  if (node.type !== 'ExpressionStatement') return false;
   const expr = node.expression;
-  if (expr.type !== "AssignmentExpression") return false;
+  if (expr.type !== 'AssignmentExpression') return false;
   const rootName = getRootObjectName(expr.left);
   return rootName != null && ignoredVars.includes(rootName);
 }
@@ -118,19 +120,19 @@ function peek<T>(arr: T[]): T {
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "problem",
+    type: 'problem',
     docs: {
       description:
-        "Require returning inside each `then()` to create readable and reusable Promise chains.",
+        'Require returning inside each `then()` to create readable and reusable Promise chains.',
     },
     schema: [
       {
-        type: "object",
+        type: 'object',
         properties: {
-          ignoreLastCallback: { type: "boolean" },
+          ignoreLastCallback: { type: 'boolean' },
           ignoreAssignmentVariable: {
-            type: "array",
-            items: { type: "string", pattern: "^[\\w$]+$" },
+            type: 'array',
+            items: { type: 'string', pattern: '^[\\w$]+$' },
             uniqueItems: true,
           },
         },
@@ -138,7 +140,7 @@ const rule: Rule.RuleModule = {
       },
     ],
     messages: {
-      thenShouldReturnOrThrow: "Each then() should return a value or throw",
+      thenShouldReturnOrThrow: 'Each then() should return a value or throw',
     },
   },
   create(context) {
@@ -148,7 +150,7 @@ const rule: Rule.RuleModule = {
     };
     const ignoreLastCallback = options.ignoreLastCallback ?? false;
     const ignoreAssignmentVariable = options.ignoreAssignmentVariable ?? [
-      "globalThis",
+      'globalThis',
     ];
 
     const funcInfoStack: FuncInfo[] = [];
@@ -163,8 +165,8 @@ const rule: Rule.RuleModule = {
     }
 
     return {
-      "ReturnStatement:exit": markCurrentBranchAsGood,
-      "ThrowStatement:exit": markCurrentBranchAsGood,
+      'ReturnStatement:exit': markCurrentBranchAsGood,
+      'ThrowStatement:exit': markCurrentBranchAsGood,
       'ExpressionStatement > CallExpression > MemberExpression[object.name="process"][property.name="exit"]:exit':
         markCurrentBranchAsGood,
       'ExpressionStatement > CallExpression > MemberExpression[object.name="process"][property.name="abort"]:exit':
@@ -201,7 +203,7 @@ const rule: Rule.RuleModule = {
           const body = (
             node as ESTree.FunctionExpression | ESTree.ArrowFunctionExpression
           ).body;
-          if (body.type === "BlockStatement") {
+          if (body.type === 'BlockStatement') {
             for (const statement of body.body) {
               if (isIgnoredAssignment(statement, ignoreAssignmentVariable)) {
                 return;
@@ -214,7 +216,7 @@ const rule: Rule.RuleModule = {
           const branch = funcInfo.branchInfoMap[segment.id];
           if (branch && !branch.good) {
             context.report({
-              messageId: "thenShouldReturnOrThrow",
+              messageId: 'thenShouldReturnOrThrow',
               node: branch.node,
             });
           }

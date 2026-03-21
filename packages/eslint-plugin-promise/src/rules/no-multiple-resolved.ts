@@ -1,5 +1,5 @@
-import type { Rule, Scope } from "eslint";
-import { isPromiseConstructorWithInlineExecutor } from "../lib/is-promise-constructor.js";
+import { isPromiseConstructorWithInlineExecutor } from '../lib/is-promise-constructor.js';
+import type { Rule, Scope } from 'eslint';
 
 function* iterateAllPrevPathSegments(
   segment: Rule.CodePathSegment,
@@ -16,7 +16,8 @@ function* iterateAllPrevPathSegments(
     for (const prev of seg.prevSegments) {
       if (prev.prevSegments.length === 0) {
         yield [prev];
-      } else {
+      }
+      else {
         for (const segments of iterate(prev, nextProcessed)) {
           yield [prev, ...segments];
         }
@@ -40,7 +41,8 @@ function* iterateAllNextPathSegments(
     for (const next of seg.nextSegments) {
       if (next.nextSegments.length === 0) {
         yield [next];
-      } else {
+      }
+      else {
         for (const segments of iterate(next, nextProcessed)) {
           yield [next, ...segments];
         }
@@ -83,7 +85,7 @@ function findSameRoutePathSegment(
 interface ReportData {
   node: Rule.Node;
   resolved: Rule.Node;
-  kind: "certain" | "potential";
+  kind: 'certain' | 'potential';
 }
 
 class CodePathSegmentInfo {
@@ -100,6 +102,7 @@ class CodePathSegmentInfo {
   get resolved(): Rule.Node | null {
     return this._resolved;
   }
+
   set resolved(identifier: Rule.Node | null) {
     this._resolved = identifier;
     if (identifier) this.pathInfo.resolvedCount++;
@@ -129,11 +132,11 @@ class CodePathInfo {
     });
   }
 
-  *iterateReports(
+  * iterateReports(
     promiseCtx: PromiseCodePathContext,
   ): Iterable<ReportData> {
     const targets = [...this.segmentInfos.values()].filter(
-      (info) => info.resolved,
+      info => info.resolved,
     );
     for (const segmentInfo of targets) {
       const result = this._getAlreadyResolvedData(
@@ -153,20 +156,20 @@ class CodePathInfo {
   private _getAlreadyResolvedData(
     segment: Rule.CodePathSegment,
     promiseCtx: PromiseCodePathContext,
-  ): { resolved: Rule.Node; kind: "certain" | "potential" } | null {
+  ): { resolved: Rule.Node; kind: 'certain' | 'potential' } | null {
     const prevSegments = segment.prevSegments.filter(
-      (prev) => !promiseCtx.isResolvedTryBlockCodePathSegment(prev),
+      prev => !promiseCtx.isResolvedTryBlockCodePathSegment(prev),
     );
     if (prevSegments.length === 0) return null;
 
-    const prevSegmentInfos = prevSegments.map((prev) =>
+    const prevSegmentInfos = prevSegments.map(prev =>
       this._getProcessedSegmentInfo(prev, promiseCtx),
     );
 
-    if (prevSegmentInfos.every((info) => info.resolved)) {
+    if (prevSegmentInfos.every(info => info.resolved)) {
       return {
         resolved: prevSegmentInfos[0].resolved!,
-        kind: "certain",
+        kind: 'certain',
       };
     }
 
@@ -174,14 +177,15 @@ class CodePathInfo {
       if (prevSegmentInfo.resolved) {
         return {
           resolved: prevSegmentInfo.resolved,
-          kind: "potential",
+          kind: 'potential',
         };
       }
       if (prevSegmentInfo.potentiallyResolved) {
         let potential = false;
         if (prevSegmentInfo.segment.nextSegments.length === 1) {
           potential = true;
-        } else {
+        }
+        else {
           const segmentInfo = this.segmentInfos.get(segment);
           if (segmentInfo?.resolved) {
             if (
@@ -197,7 +201,7 @@ class CodePathInfo {
         if (potential) {
           return {
             resolved: prevSegmentInfo.potentiallyResolved,
-            kind: "potential",
+            kind: 'potential',
           };
         }
       }
@@ -209,7 +213,7 @@ class CodePathInfo {
       if (sameRouteSegmentInfo.potentiallyResolved) {
         return {
           resolved: sameRouteSegmentInfo.potentiallyResolved,
-          kind: "potential",
+          kind: 'potential',
         };
       }
     }
@@ -232,9 +236,10 @@ class CodePathInfo {
         promiseCtx,
       );
       if (alreadyResolvedData) {
-        if (alreadyResolvedData.kind === "certain") {
+        if (alreadyResolvedData.kind === 'certain') {
           newInfo.resolved = alreadyResolvedData.resolved;
-        } else {
+        }
+        else {
           newInfo.potentiallyResolved = alreadyResolvedData.resolved;
         }
       }
@@ -244,11 +249,12 @@ class CodePathInfo {
 }
 
 class PromiseCodePathContext {
-  private resolvedSegmentIds = new Set<string>();
+  private readonly resolvedSegmentIds = new Set<string>();
 
   addResolvedTryBlockCodePathSegment(segment: Rule.CodePathSegment) {
     this.resolvedSegmentIds.add(segment.id);
   }
+
   isResolvedTryBlockCodePathSegment(
     segment: Rule.CodePathSegment,
   ): boolean {
@@ -258,17 +264,17 @@ class PromiseCodePathContext {
 
 const rule: Rule.RuleModule = {
   meta: {
-    type: "problem",
+    type: 'problem',
     docs: {
       description:
-        "Disallow creating new promises with paths that resolve multiple times.",
+        'Disallow creating new promises with paths that resolve multiple times.',
     },
     schema: [],
     messages: {
       alreadyResolved:
-        "Promise should not be resolved multiple times. Promise is already resolved on line {{line}}.",
+        'Promise should not be resolved multiple times. Promise is already resolved on line {{line}}.',
       potentiallyAlreadyResolved:
-        "Promise should not be resolved multiple times. Promise is potentially resolved on line {{line}}.",
+        'Promise should not be resolved multiple times. Promise is potentially resolved on line {{line}}.',
     },
   },
   create(context) {
@@ -278,16 +284,16 @@ const rule: Rule.RuleModule = {
     function report(
       node: Rule.Node,
       resolved: Rule.Node,
-      kind: "certain" | "potential",
+      kind: 'certain' | 'potential',
     ) {
       if (reported.has(node)) return;
       reported.add(node);
       context.report({
         node: node.parent!,
         messageId:
-          kind === "certain"
-            ? "alreadyResolved"
-            : "potentiallyAlreadyResolved",
+          kind === 'certain'
+            ? 'alreadyResolved'
+            : 'potentiallyAlreadyResolved',
         data: {
           line: String(resolved.loc?.start.line ?? 0),
         },
@@ -303,23 +309,22 @@ const rule: Rule.RuleModule = {
     }
 
     const codePathInfoStack: CodePathInfo[] = [];
-    const resolverReferencesStack: Set<Scope.Variable["references"][0]["identifier"]>[] =
-      [new Set()];
+    const resolverReferencesStack: Array<Set<Scope.Variable['references'][0]['identifier']>>
+      = [new Set()];
     let lastThrowableExpression: Rule.Node | null = null;
 
     return {
-      "FunctionExpression, ArrowFunctionExpression"(node: Rule.Node) {
-        if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent))
-          return;
+      'FunctionExpression, ArrowFunctionExpression': function (node: Rule.Node) {
+        if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent)) { return; }
 
-        const resolverReferences =
-          new Set<Scope.Variable["references"][0]["identifier"]>();
+        const resolverReferences
+          = new Set<Scope.Variable['references'][0]['identifier']>();
         const funcNode = node as Rule.Node & {
           params: Array<{ type: string; name?: string }>;
         };
         const resolvers = funcNode.params.filter(
-          (p): p is { type: "Identifier"; name: string } =>
-            p.type === "Identifier",
+          (p): p is { type: 'Identifier'; name: string } =>
+            p.type === 'Identifier',
         );
 
         const scope = context.sourceCode.getScope(node);
@@ -333,11 +338,10 @@ const rule: Rule.RuleModule = {
 
         resolverReferencesStack.unshift(resolverReferences);
       },
-      "FunctionExpression:exit, ArrowFunctionExpression:exit"(
+      'FunctionExpression:exit, ArrowFunctionExpression:exit': function (
         node: Rule.Node,
       ) {
-        if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent))
-          return;
+        if (!node.parent || !isPromiseConstructorWithInlineExecutor(node.parent)) { return; }
         resolverReferencesStack.shift();
       },
       onCodePathStart() {
@@ -349,7 +353,7 @@ const rule: Rule.RuleModule = {
           verifyMultipleResolvedPath(codePathInfo);
         }
       },
-      "CallExpression, MemberExpression, NewExpression, ImportExpression, YieldExpression:exit"(
+      'CallExpression, MemberExpression, NewExpression, ImportExpression, YieldExpression:exit': function (
         node: Rule.Node,
       ) {
         lastThrowableExpression = node;
@@ -365,14 +369,13 @@ const rule: Rule.RuleModule = {
         node: Rule.Node,
       ) {
         if (
-          node.type === "CatchClause" &&
-          lastThrowableExpression &&
-          lastThrowableExpression.type === "CallExpression" &&
-          node.parent?.type === "TryStatement" &&
-          node.parent.range &&
-          lastThrowableExpression.range &&
-          node.parent.range[0] <= lastThrowableExpression.range[0] &&
-          lastThrowableExpression.range[1] <= node.parent.range[1]
+          node.type === 'CatchClause'
+          && lastThrowableExpression?.type === 'CallExpression'
+          && node.parent?.type === 'TryStatement'
+          && node.parent.range
+          && lastThrowableExpression.range
+          && node.parent.range[0] <= lastThrowableExpression.range[0]
+          && lastThrowableExpression.range[1] <= node.parent.range[1]
         ) {
           const resolverReferences = resolverReferencesStack[0];
           const callee = (
@@ -389,14 +392,14 @@ const rule: Rule.RuleModule = {
       onUnreachableCodePathSegmentEnd(segment: Rule.CodePathSegment) {
         codePathInfoStack[0].onSegmentExit(segment);
       },
-      "CallExpression > Identifier.callee"(node: Rule.Node) {
+      'CallExpression > Identifier.callee': function (node: Rule.Node) {
         const codePathInfo = codePathInfoStack[0];
         const resolverReferences = resolverReferencesStack[0];
         if (!resolverReferences.has(node as never)) return;
 
         for (const segmentInfo of codePathInfo.getCurrentSegmentInfos()) {
           if (segmentInfo.resolved) {
-            report(node, segmentInfo.resolved, "certain");
+            report(node, segmentInfo.resolved, 'certain');
             continue;
           }
           segmentInfo.resolved = node;
