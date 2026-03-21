@@ -1,0 +1,33 @@
+{
+  "name": "@mizunashi_mana/eslint-config-refined",
+  "version": "0.0.0",
+  "description": "A refined, opinionated ESLint shared configuration",
+  "license": "(Apache-2.0 OR MPL-2.0)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "lint:eslint": "eslint --cache .",
+    "typecheck": "tsc --noEmit -p tsconfig.build.json"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.24.0",
+    "jiti": "^2.6.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.57.1",
+    "vitest": "^3.1.4"
+  }
+}

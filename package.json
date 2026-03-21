@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm test --workspaces",
+    "lint:eslint": "npm run lint:eslint --workspaces",
+    "typecheck": "npm run typecheck --workspaces"
+  }
+}
