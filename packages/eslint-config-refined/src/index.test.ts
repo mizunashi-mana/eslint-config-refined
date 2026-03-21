@@ -1,29 +1,88 @@
 import { describe, expect, it } from "vitest";
 import { buildConfig } from "./index.js";
 
+type ConfigItem = {
+  name?: string;
+  files?: string[];
+  ignores?: string[];
+  plugins?: Record<string, unknown>;
+  rules?: Record<string, unknown>;
+  settings?: Record<string, unknown>;
+  languageOptions?: Record<string, unknown>;
+};
+
+/**
+ * Extract serializable snapshot data from ESLint config.
+ * Focuses on rules, files, ignores, and settings - the parts we want to track for changes.
+ */
+function extractSnapshotData(config: ReturnType<typeof buildConfig>) {
+  return (config as ConfigItem[]).map((item) => {
+    const result: Record<string, unknown> = {};
+
+    if (item.name !== undefined && item.name !== "") result.name = item.name;
+    if (item.files !== undefined) result.files = item.files;
+    if (item.ignores !== undefined) result.ignores = item.ignores;
+    if (item.rules !== undefined) result.rules = item.rules;
+    if (item.settings !== undefined) result.settings = item.settings;
+
+    // Extract plugin names without the actual plugin objects (which have circular refs)
+    if (item.plugins !== undefined) {
+      result.plugins = Object.keys(item.plugins);
+    }
+
+    // Extract language options without parser objects
+    if (item.languageOptions !== undefined) {
+      const langOpts: Record<string, unknown> = {};
+      const lo = item.languageOptions;
+
+      if (lo.ecmaVersion !== undefined) langOpts.ecmaVersion = lo.ecmaVersion;
+      if (lo.sourceType !== undefined) langOpts.sourceType = lo.sourceType;
+      if (lo.globals !== undefined) langOpts.globals = lo.globals;
+      if (lo.parser !== undefined) langOpts.parser = "[Parser]";
+      if (lo.parserOptions !== undefined) {
+        langOpts.parserOptions = lo.parserOptions;
+      }
+
+      if (Object.keys(langOpts).length > 0) {
+        result.languageOptions = langOpts;
+      }
+    }
+
+    return result;
+  });
+}
+
 describe("buildConfig", () => {
-  it("returns an array of ESLint configs", () => {
-    const configs = buildConfig();
-    expect(Array.isArray(configs)).toBe(true);
+  it("should generate correct config for common ruleSet only", () => {
+    const config = buildConfig({
+      ruleSets: ["common"],
+      disableFixedRules: false,
+      entrypointFiles: ["src/index.ts"],
+    });
+
+    const snapshotData = extractSnapshotData(config);
+    expect(snapshotData).toMatchSnapshot();
   });
 
-  it("returns configs with rules when common ruleset is used", () => {
-    const configs = buildConfig({ ruleSets: ["common"] });
-    expect(configs.length).toBeGreaterThan(0);
+  it("should generate correct config for common + node ruleSets", () => {
+    const config = buildConfig({
+      ruleSets: ["common", "node"],
+      disableFixedRules: false,
+      entrypointFiles: ["src/index.ts"],
+    });
+
+    const snapshotData = extractSnapshotData(config);
+    expect(snapshotData).toMatchSnapshot();
   });
 
-  it("includes globals config by default", () => {
-    const configs = buildConfig({ ruleSets: [] });
-    expect(configs.length).toBeGreaterThan(0);
-  });
+  it("should generate correct config for common + node ruleSets with disableFixedRules", () => {
+    const config = buildConfig({
+      ruleSets: ["common", "node"],
+      disableFixedRules: true,
+      entrypointFiles: ["src/index.ts"],
+    });
 
-  it("uses default entrypointFiles when not specified", () => {
-    const configs = buildConfig();
-    expect(Array.isArray(configs)).toBe(true);
-  });
-
-  it("accepts custom entrypointFiles", () => {
-    const configs = buildConfig({ entrypointFiles: ["src/main.ts"] });
-    expect(Array.isArray(configs)).toBe(true);
+    const snapshotData = extractSnapshotData(config);
+    expect(snapshotData).toMatchSnapshot();
   });
 });
