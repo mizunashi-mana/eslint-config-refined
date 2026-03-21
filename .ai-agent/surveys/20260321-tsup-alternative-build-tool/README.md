@@ -102,17 +102,19 @@ export default defineConfig({
 });
 ```
 
-tsdown への移行後（想定）:
+tsdown への移行後（実際の設定）:
 ```ts
 export default defineConfig({
   entry: ['src/index.ts'],
-  format: ['esm'],
   tsconfig: 'tsconfig.build.json',
   dts: true,
+  fixedExtension: false,
 });
 ```
 
+- `format` はデフォルト `'esm'` のため省略可能
 - `clean` はデフォルト `true` のため省略可能
+- `fixedExtension: false` により、`"type": "module"` パッケージで `.js`/`.d.ts` を出力（デフォルトは `.mjs`/`.d.mts`）
 - path alias は tsconfig.json の `paths` に定義すれば Rolldown が自動解決
 
 ## 結論
