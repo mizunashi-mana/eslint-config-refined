@@ -1,4 +1,4 @@
-import { isPromise } from '../lib/is-promise.js';
+import { isPromise } from '#lib';
 import type { Rule } from 'eslint';
 import type * as ESTree from 'estree';
 

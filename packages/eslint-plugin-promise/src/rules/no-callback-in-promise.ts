@@ -1,4 +1,4 @@
-import { isInsidePromise } from '../lib/is-inside-promise.js';
+import { isInsidePromise } from '#lib';
 import type { Rule } from 'eslint';
 
 const DEFAULT_CALLBACKS = ['done', 'cb', 'callback', 'next'];

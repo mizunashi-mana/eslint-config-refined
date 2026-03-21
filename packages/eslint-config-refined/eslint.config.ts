@@ -5,10 +5,4 @@ export default [
     ignores: ['dist/**'],
   },
   ...buildConfig(),
-  {
-    files: ['tests/**/*.ts'],
-    rules: {
-      'no-restricted-imports': 'off',
-    },
-  },
 ];
