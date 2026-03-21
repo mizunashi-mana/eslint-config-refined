@@ -29,6 +29,12 @@
 - Playwright テスト対応ルールセットの追加（eslint-plugin-playwright）
 - Storybook 対応ルールセットの追加（eslint-plugin-storybook）
 
+### フェーズ 6: npm 公開 ✅
+
+- パッケージのバージョニング戦略の決定（v0.1.0 リリース済み）
+- npm 公開パイプラインの構築（GitHub Actions `publish.yml`）
+- 各パッケージに publishConfig・repository メタデータを設定
+
 ## 進行中
 
 （なし）
@@ -47,8 +53,6 @@
 - typescript-eslint / @eslint/js 等の各 recommended 設定との差分分析
 - 不足ルールの追加・既存ルールの設定見直し
 
-### フェーズ 6: npm 公開
+### フェーズ 7: 利用展開
 
-- パッケージのバージョニング戦略の決定
-- npm 公開パイプラインの構築（GitHub Actions）
 - 既存リポジトリでの利用開始・移行

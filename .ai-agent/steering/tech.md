@@ -104,4 +104,4 @@ npm run typecheck --workspaces
   - **ci-lint**: devenv + prek による build・typecheck・lint（composite action でセットアップ共通化）
   - **ci-test**: Node.js + npm による build・test
 - composite actions（`.github/actions/`）でセットアップ手順を共通化
-- npm への公開パイプライン（予定）
+- **publish**: 手動トリガー（workflow_dispatch）による npm 公開パイプライン
