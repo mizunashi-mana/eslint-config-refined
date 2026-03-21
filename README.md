@@ -1,5 +1,10 @@
 # eslint-config-refined
 
+[![CI Lint](https://github.com/mizunashi-mana/eslint-config-refined/actions/workflows/ci-lint.yml/badge.svg)](https://github.com/mizunashi-mana/eslint-config-refined/actions/workflows/ci-lint.yml)
+[![CI Test](https://github.com/mizunashi-mana/eslint-config-refined/actions/workflows/ci-test.yml/badge.svg)](https://github.com/mizunashi-mana/eslint-config-refined/actions/workflows/ci-test.yml)
+[![npm: eslint-config-refined](https://img.shields.io/npm/v/%40mizunashi_mana/eslint-config-refined)](https://www.npmjs.com/package/@mizunashi_mana/eslint-config-refined)
+[![npm: eslint-plugin-promise](https://img.shields.io/npm/v/%40mizunashi_mana/eslint-plugin-promise)](https://www.npmjs.com/package/@mizunashi_mana/eslint-plugin-promise)
+
 A strict, opinionated ESLint shared configuration for TypeScript projects.
 
 ## What
