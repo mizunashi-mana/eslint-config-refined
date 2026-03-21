@@ -16,30 +16,31 @@ allowed-tools: Read, Edit, "Bash(npm install)", "Bash(git log*)", "Bash(git chec
 - `packages/eslint-config-refined/package.json`
 - `packages/eslint-plugin-promise/package.json`
 
-### 2. 前回リリースからの変更履歴を取得
+### 2. 対象パッケージを特定
 
-`git log v{現在のバージョン}..HEAD --oneline` を実行し、前回リリース以降のコミット一覧を取得する。
+ユーザーが対象パッケージを指定している場合はそれを使用する。
+指定がない場合はユーザーに確認する。両方を同時に更新することも可能。
+
+### 3. 前回リリースからの変更履歴を取得
+
+対象パッケージごとに `git log v{パッケージ名}@{現在のバージョン}..HEAD --oneline -- packages/{パッケージディレクトリ}` を実行し、前回リリース以降の変更コミット一覧を取得する。
 タグが存在しない場合は、全コミットを表示する。
 
-### 3. 新しいバージョンを決定
+### 4. 新しいバージョンを決定
 
 ユーザーが具体的なバージョン番号を指定している場合はそれを使用する。
-指定がない場合は、変更履歴の概要（主な変更点を箇条書きで要約）を提示した上で、ユーザーにどのバージョンに上げるか確認する。
+指定がない場合は、変更履歴の概要（主な変更点を箇条書きで要約）を提示した上で、パッケージごとにどのバージョンに上げるか確認する。
 
-注意: 両パッケージは同じバージョンに揃える。eslint-config-refined が eslint-plugin-promise に依存しているため、バージョンの整合性を保つ必要がある。
+### 5. ブランチを作成
 
-### 4. ブランチを作成
+`git checkout -b bump-version-{パッケージ名}-{新バージョン}` でブランチを作成する。
+複数パッケージを同時に更新する場合は適切なブランチ名を選ぶ。
 
-`git checkout -b bump-version-{新バージョン}` でブランチを作成する。
+### 6. バージョンを更新
 
-### 5. バージョンを更新
+対象パッケージの `package.json` の `"version"` フィールドを新しいバージョンに更新する。
 
-以下のファイルの `"version"` フィールドを新しいバージョンに更新する:
-
-- `packages/eslint-config-refined/package.json`
-- `packages/eslint-plugin-promise/package.json`
-
-また、`packages/eslint-config-refined/package.json` の `dependencies` にある `@mizunashi_mana/eslint-plugin-promise` のバージョン指定を `^{新バージョン}` に更新する。
+eslint-plugin-promise のバージョンを更新した場合は、`packages/eslint-config-refined/package.json` の `dependencies` にある `@mizunashi_mana/eslint-plugin-promise` のバージョン指定も `^{新バージョン}` に更新する。
 
 ### 6. package-lock.json を更新
 
@@ -47,7 +48,7 @@ allowed-tools: Read, Edit, "Bash(npm install)", "Bash(git log*)", "Bash(git chec
 
 ### 7. コミット
 
-変更をコミットする。メッセージ: `バージョンを {新バージョン} に更新`
+変更をコミットする。メッセージ: `{パッケージ名} のバージョンを {新バージョン} に更新`
 
 ### 8. PR を作成
 
