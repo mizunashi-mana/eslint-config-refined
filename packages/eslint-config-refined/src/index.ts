@@ -4,15 +4,17 @@ import { buildGlobalsConfig } from "./globals.config.js";
 import { buildImportsConfig } from "./imports.config.js";
 import { buildJsConfig } from "./js.config.js";
 import { buildNodeConfig } from "./node.config.js";
+import { buildPlaywrightConfig } from "./playwright.config.js";
 import { buildPromiseConfig } from "./promise.config.js";
 import { buildReactConfig } from "./react.config.js";
+import { buildStorybookConfig } from "./storybook.config.js";
 import {
   type StylisticOptions,
   buildStylisticConfig,
 } from "./stylistic.config.js";
 import { buildTsConfig } from "./ts.config.js";
 
-export type RuleSet = "common" | "node" | "react";
+export type RuleSet = "common" | "node" | "react" | "playwright" | "storybook";
 
 export type { StylisticOptions };
 
@@ -21,6 +23,7 @@ export interface BuildConfigEnv {
   ruleSets?: RuleSet[];
   entrypointFiles?: string[];
   stylistic?: StylisticOptions;
+  playwrightFiles?: string[];
 }
 
 export function buildConfig(env?: BuildConfigEnv) {
@@ -50,6 +53,12 @@ export function buildConfig(env?: BuildConfigEnv) {
         break;
       case "react":
         rules.push(buildReactConfig());
+        break;
+      case "playwright":
+        rules.push(buildPlaywrightConfig({ files: env?.playwrightFiles }));
+        break;
+      case "storybook":
+        rules.push(buildStorybookConfig());
         break;
     }
   }

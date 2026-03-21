@@ -36,12 +36,16 @@
 - **comments.config.ts**: ESLint コメントディレクティブのルール
 - **node.config.ts**: Node.js 固有ルール
 - **react.config.ts**: React 固有ルール（eslint-plugin-react-x）
+- **playwright.config.ts**: Playwright テスト固有ルール（eslint-plugin-playwright）
+- **storybook.config.ts**: Storybook 固有ルール（eslint-plugin-storybook）
 
 ### ルールセット
 
 - **`common`**: js + ts + stylistic + imports + promise + comments（全環境共通）
 - **`node`**: Node.js 固有ルール（サーバーサイド向け）
 - **`react`**: React 固有ルール（eslint-plugin-react-x ベース）
+- **`playwright`**: Playwright テスト固有ルール（eslint-plugin-playwright ベース）
+- **`storybook`**: Storybook 固有ルール（eslint-plugin-storybook ベース）
 
 ## 主要依存ライブラリ
 
@@ -53,6 +57,8 @@
 - `eslint-plugin-unused-imports` - 未使用インポート検出
 - `eslint-plugin-react-x` - React ルール（@eslint-react エコシステム、ESLint v10 対応）
 - `@eslint-community/eslint-plugin-eslint-comments` - ESLint コメント管理
+- `eslint-plugin-playwright` - Playwright テストルール
+- `eslint-plugin-storybook` - Storybook ルール
 - `globals` - グローバル変数定義
 
 ## 移植元リポジトリ
