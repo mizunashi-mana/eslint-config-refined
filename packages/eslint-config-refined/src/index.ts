@@ -6,15 +6,21 @@ import { buildJsConfig } from "./js.config.js";
 import { buildNodeConfig } from "./node.config.js";
 import { buildPromiseConfig } from "./promise.config.js";
 import { buildReactConfig } from "./react.config.js";
-import { buildStylisticConfig } from "./stylistic.config.js";
+import {
+  type StylisticOptions,
+  buildStylisticConfig,
+} from "./stylistic.config.js";
 import { buildTsConfig } from "./ts.config.js";
 
 export type RuleSet = "common" | "node" | "react";
+
+export type { StylisticOptions };
 
 export interface BuildConfigEnv {
   disableFixedRules?: boolean;
   ruleSets?: RuleSet[];
   entrypointFiles?: string[];
+  stylistic?: StylisticOptions;
 }
 
 export function buildConfig(env?: BuildConfigEnv) {
@@ -33,7 +39,7 @@ export function buildConfig(env?: BuildConfigEnv) {
         rules.push(
           buildJsConfig({ entrypointFiles }),
           buildTsConfig(),
-          buildStylisticConfig(),
+          buildStylisticConfig(env?.stylistic),
           buildImportsConfig({ disableFixedRules }),
           buildPromiseConfig(),
           buildCommentsConfig(),
