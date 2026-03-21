@@ -21,13 +21,20 @@
     "lint:eslint": "eslint --cache .",
     "typecheck": "tsc --noEmit -p tsconfig.build.json"
   },
-  "devDependencies": {
+  "dependencies": {
     "@eslint/js": "^9.39.4",
+    "globals": "^14.0.0",
+    "typescript-eslint": "^8.57.1"
+  },
+  "peerDependencies": {
+    "eslint": "^9.0.0",
+    "typescript": "^5.5.0"
+  },
+  "devDependencies": {
     "eslint": "^9.24.0",
     "jiti": "^2.6.1",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.57.1",
     "vitest": "^3.1.4"
   }
 }

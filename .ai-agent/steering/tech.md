@@ -53,6 +53,14 @@
 - `@eslint-community/eslint-plugin-eslint-comments` - ESLint コメント管理
 - `globals` - グローバル変数定義
 
+## 移植元リポジトリ
+
+以下の3リポジトリに同一内容の eslint-config パッケージがあり、eslint-config-refined の移植元となる:
+
+- https://github.com/mizunashi-mana/cc-voice-reporter/tree/main/packages/eslint-config
+- https://github.com/mizunashi-mana/mcp-html-artifacts-preview/tree/main/packages/eslint-config
+- https://github.com/mizunashi-mana/example-todo-app-with-agent-sdk/tree/main/packages/eslint-config
+
 ## 開発環境
 
 devenv による Nix ベースの開発環境を使用。`devenv shell` で Node.js や開発ツールが利用可能になる。
