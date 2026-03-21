@@ -30,10 +30,12 @@ const rule: Rule.RuleModule = {
     },
   },
   create(context) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ESLint rule options are typed as `unknown[]`
     const options = (context.options[0] ?? {}) as { exclude?: string[] };
     const exclude = options.exclude ?? [];
 
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST node name
       CallExpression(node) {
         if (!isPromise(node)) return;
         if (node.callee.type !== 'MemberExpression') return;

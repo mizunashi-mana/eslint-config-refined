@@ -26,6 +26,7 @@ const rule: Rule.RuleModule = {
     },
   },
   create(context) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ESLint rule options are typed as `unknown[]`
     const options = (context.options[0] ?? {}) as {
       resolvePattern?: string;
       rejectPattern?: string;
@@ -40,6 +41,7 @@ const rule: Rule.RuleModule = {
     );
 
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST node name
       NewExpression(node) {
         if (!isPromiseConstructorWithInlineExecutor(node)) return;
 

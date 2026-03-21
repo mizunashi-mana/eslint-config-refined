@@ -22,12 +22,14 @@ const rule: Rule.RuleModule = {
     },
   },
   create(context) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ESLint rule options are typed as `unknown[]`
     const options = (context.options[0] ?? {}) as {
       exemptDeclarations?: boolean;
     };
     const exemptDeclarations = options.exemptDeclarations ?? false;
 
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST node name
       CallExpression(node) {
         if (!isPromise(node)) return;
 
@@ -44,6 +46,7 @@ const rule: Rule.RuleModule = {
             });
             return;
           }
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Rule.Node.parent is always Rule.Node but we need optional for loop termination
           current = current.parent as Rule.Node | undefined;
         }
       },

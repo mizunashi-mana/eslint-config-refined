@@ -43,6 +43,7 @@ function isInlineThenFunctionExpression(
 
 function isLastCallback(node: InlineThenFunction): boolean {
   let target: Rule.Node = node.parent;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Rule.Node.parent is always Rule.Node but we need optional for loop termination
   let parent = target.parent as Rule.Node | undefined;
   while (parent) {
     if (parent.type === 'ExpressionStatement') return true;
@@ -145,6 +146,7 @@ const rule: Rule.RuleModule = {
     },
   },
   create(context) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ESLint rule options are typed as `unknown[]`
     const options = (context.options[0] ?? {}) as {
       ignoreLastCallback?: boolean;
       ignoreAssignmentVariable?: string[];

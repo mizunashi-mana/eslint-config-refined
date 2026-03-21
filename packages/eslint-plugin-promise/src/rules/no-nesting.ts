@@ -31,16 +31,19 @@ const rule: Rule.RuleModule = {
     }
 
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST selector
       ':function': function (node: Rule.Node) {
         if (isInsidePromise(node)) {
           callbackScopes.unshift(context.sourceCode.getScope(node));
         }
       },
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST selector
       ':function:exit': function (node: Rule.Node) {
         if (isInsidePromise(node)) {
           callbackScopes.shift();
         }
       },
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST node name
       CallExpression(node) {
         if (!hasPromiseCallback(node)) return;
         if (callbackScopes.length === 0) return;

@@ -15,6 +15,7 @@ const rule: Rule.RuleModule = {
   },
   create(context) {
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST node name
       NewExpression(node) {
         if (
           node.callee.type === 'MemberExpression'

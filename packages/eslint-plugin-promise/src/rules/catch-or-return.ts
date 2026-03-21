@@ -51,6 +51,7 @@ const rule: Rule.RuleModule = {
     },
   },
   create(context) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ESLint rule options are typed as `unknown[]`
     const options = (context.options[0] ?? {}) as {
       allowFinally?: boolean;
       allowThen?: boolean;
@@ -80,6 +81,7 @@ const rule: Rule.RuleModule = {
       if (getMemberPropertyName(expression.callee) !== 'finally') return false;
       if (!isPromise(expression.callee.object)) return false;
       return isAllowedPromiseTermination(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ESTree.Node to Rule.Node for parent-aware traversal
         expression.callee.object as Rule.Node,
       );
     }
@@ -107,8 +109,10 @@ const rule: Rule.RuleModule = {
     }
 
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- ESLint rule visitor key uses AST node name
       ExpressionStatement(node) {
         if (!isPromise(node.expression)) return;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- ESTree.Node to Rule.Node for parent-aware traversal
         if (isAllowedPromiseTermination(node.expression as Rule.Node)) return;
 
         context.report({
