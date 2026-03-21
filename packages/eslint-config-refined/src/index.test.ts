@@ -47,6 +47,23 @@ describe("buildConfig snapshot tests", () => {
     });
   });
 
+  describe("common + react ruleSets", () => {
+    const eslint = createESLint({ ruleSets: ["common", "react"] });
+
+    it("should apply correct rules for source files", async () => {
+      const config = await calculateConfigForSnapshot(eslint, "src/app.tsx");
+      expect(config).toMatchSnapshot();
+    });
+
+    it("should apply correct rules for test files", async () => {
+      const config = await calculateConfigForSnapshot(
+        eslint,
+        "src/app.test.tsx",
+      );
+      expect(config).toMatchSnapshot();
+    });
+  });
+
   describe("common + node ruleSets with disableFixedRules", () => {
     const eslint = createESLint({
       ruleSets: ["common", "node"],

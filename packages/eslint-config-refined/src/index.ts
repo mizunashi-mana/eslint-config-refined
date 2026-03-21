@@ -5,10 +5,11 @@ import { buildImportsConfig } from "./imports.config.js";
 import { buildJsConfig } from "./js.config.js";
 import { buildNodeConfig } from "./node.config.js";
 import { buildPromiseConfig } from "./promise.config.js";
+import { buildReactConfig } from "./react.config.js";
 import { buildStylisticConfig } from "./stylistic.config.js";
 import { buildTsConfig } from "./ts.config.js";
 
-export type RuleSet = "common" | "node";
+export type RuleSet = "common" | "node" | "react";
 
 export interface BuildConfigEnv {
   disableFixedRules?: boolean;
@@ -40,6 +41,9 @@ export function buildConfig(env?: BuildConfigEnv) {
         break;
       case "node":
         rules.push(buildNodeConfig({ entrypointFiles }));
+        break;
+      case "react":
+        rules.push(buildReactConfig());
         break;
     }
   }
