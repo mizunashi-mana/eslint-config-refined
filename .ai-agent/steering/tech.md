@@ -5,7 +5,7 @@
 - **言語**: TypeScript 5.5+
 - **ランタイム**: Node.js v24
 - **対象 ESLint**: v10（ESLint v10.0.0+）
-- **ビルド**: tsup（ESM 出力 + 型定義生成）
+- **ビルド**: tsdown（ESM 出力 + 型定義生成、Rolldown ベース）
 - **テスト**: Vitest
 - **パッケージマネージャ**: npm workspace（モノレポ管理）
 - **開発環境**: devenv（Nix ベース。Node.js、git-hooks 等を管理）
