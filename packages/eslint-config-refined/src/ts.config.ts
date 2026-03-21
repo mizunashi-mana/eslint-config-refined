@@ -179,7 +179,10 @@ export function buildTsConfig() {
         "@typescript-eslint/prefer-string-starts-ends-with": "error",
         "@typescript-eslint/promise-function-async": "error",
         "@typescript-eslint/related-getter-setter-pairs": "error",
-        "@typescript-eslint/require-array-sort-compare": "error",
+        "@typescript-eslint/require-array-sort-compare": [
+          "error",
+          { ignoreStringArrays: true },
+        ],
         "@typescript-eslint/require-await": "off",
         "@typescript-eslint/restrict-plus-operands": "error",
         "@typescript-eslint/restrict-template-expressions": [
@@ -187,6 +190,10 @@ export function buildTsConfig() {
           { allowNumber: true },
         ],
         "@typescript-eslint/return-await": ["error", "in-try-catch"],
+        "@typescript-eslint/strict-void-return": [
+          "error",
+          { allowReturnAny: false },
+        ],
         "@typescript-eslint/strict-boolean-expressions": [
           "error",
           {
