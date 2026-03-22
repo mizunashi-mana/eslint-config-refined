@@ -19,7 +19,7 @@
 ### フェーズ 2: eslint-plugin-promise の v10 書き直し ✅
 
 - eslint-plugin-promise の既存ルールの調査・設計
-- ESLint v10 の Rule API に準拠した再実装（@mizunashi_mana/eslint-plugin-promise、11ルール）
+- ESLint v10 の Rule API に準拠した再実装（@mizunashi_mana/eslint-plugin-promise、12ルール）
 - テストの整備
 - eslint-config-refined に promise ルールセットを追加・統合
 
@@ -31,7 +31,7 @@
 
 ### フェーズ 6: npm 公開 ✅
 
-- パッケージのバージョニング戦略の決定（v0.1.0 リリース済み）
+- パッケージのバージョニング戦略の決定（v0.2.0 リリース済み）
 - npm 公開パイプラインの構築（GitHub Actions `publish.yml`）
 - 各パッケージに publishConfig・repository メタデータを設定
 
