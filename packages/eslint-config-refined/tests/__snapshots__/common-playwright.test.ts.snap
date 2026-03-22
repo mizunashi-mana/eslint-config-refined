@@ -1530,7 +1530,7 @@ exports[`common + playwright ruleSets > should apply correct rules for source fi
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },
@@ -3452,7 +3452,7 @@ exports[`common + playwright ruleSets > should apply correct rules for test file
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },

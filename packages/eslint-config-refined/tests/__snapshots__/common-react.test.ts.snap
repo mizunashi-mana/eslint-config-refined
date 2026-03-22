@@ -1530,7 +1530,7 @@ exports[`common + react ruleSets > should apply correct rules for source files 1
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },
@@ -3467,7 +3467,7 @@ exports[`common + react ruleSets > should apply correct rules for test files 1`]
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },

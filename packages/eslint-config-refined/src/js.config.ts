@@ -82,7 +82,7 @@ export function buildJsConfig(props: { entrypointFiles: string[] }) {
             patterns: [
               {
                 group: ['../'],
-                message: 'Use absolute paths starting with @',
+                message: 'Use absolute paths',
               },
             ],
           },

@@ -1656,7 +1656,7 @@ exports[`common + node ruleSets > should apply correct rules for entrypoint file
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },
@@ -3599,7 +3599,7 @@ exports[`common + node ruleSets > should apply correct rules for source files 1`
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },
