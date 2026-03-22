@@ -9,18 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- npm 公開用メタデータを package.json に追加
-- npm バッジを README に移動
+- Add npm publish metadata to package.json
+- Move npm badges to README
 
 ## [0.1.0] - 2026-03-21
 
 ### Added
 
-- パッケージの初期スキャフォールド
-- 9 つのコア Promise ルールの実装
-- 追加ルール: no-callback-in-promise, no-return-in-finally, prefer-await-to-then
-- ESLint v10 向けの no-multiple-resolved セレクタ修正
-- no-unsafe-type-assertion / naming-convention の有効化
-- セルフ lint の適用
-- ビルドツールを tsdown に移行
-- パスエイリアスによる no-restricted-imports オーバーライドの排除
+- Initial package scaffold
+- Implement 9 core promise rules
+- Additional rules: no-callback-in-promise, no-return-in-finally, prefer-await-to-then
+- Fix no-multiple-resolved selectors for ESLint v10
+- Enable no-unsafe-type-assertion / naming-convention
+- Apply self-linting
+- Migrate build tool to tsdown
+- Eliminate no-restricted-imports overrides with path aliases

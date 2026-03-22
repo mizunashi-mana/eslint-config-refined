@@ -65,6 +65,7 @@ eslint-plugin-promise のバージョンを更新した場合は、`packages/esl
 - カテゴリ（Added / Changed / Fixed / Removed など）は変更内容に応じて適切に選択する
 - 該当しないカテゴリは省略する
 - 各項目は簡潔に、ユーザーが理解しやすい粒度で記載する
+- CHANGELOG の記載は英語で行う
 
 ### 8. package-lock.json を更新
 

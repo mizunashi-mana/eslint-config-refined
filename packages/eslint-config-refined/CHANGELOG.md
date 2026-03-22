@@ -9,21 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- npm 公開用メタデータを package.json に追加
-- npm バッジを README に移動
+- Add npm publish metadata to package.json
+- Move npm badges to README
 
 ## [0.1.0] - 2026-03-21
 
 ### Added
 
-- モノレポ基盤（npm workspaces）のセットアップ
-- コア ESLint 設定（globals, js, ts, stylistic, imports, comments, node）
-- React ルールセット（eslint-plugin-react-x）
-- Playwright / Storybook ルールセット
-- eslint-plugin-promise の統合
-- stylistic カスタマイズオプション
-- eslint-config-love とのギャップ分析に基づくルール拡充
-- スナップショットテスト
-- ビルドツールを tsdown に移行
-- パスエイリアスによる no-restricted-imports オーバーライドの排除
-- セルフ lint の適用
+- Monorepo foundation with npm workspaces
+- Core ESLint configurations (globals, js, ts, stylistic, imports, comments, node)
+- React ruleset (eslint-plugin-react-x)
+- Playwright / Storybook rulesets
+- Integration of eslint-plugin-promise
+- Stylistic customization options
+- Rule expansion based on gap analysis with eslint-config-love
+- Snapshot tests
+- Migrate build tool to tsdown
+- Eliminate no-restricted-imports overrides with path aliases
+- Apply self-linting
