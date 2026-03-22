@@ -30,7 +30,7 @@
 - [x] `packages/eslint-config-refined/CHANGELOG.md` が作成されている
 - [x] `packages/eslint-plugin-promise/CHANGELOG.md` が作成されている
 - [x] bump-version スキルに CHANGELOG.md 更新手順が含まれている
-- [ ] PR が作成されている
+- [x] PR が作成されている（https://github.com/mizunashi-mana/eslint-config-refined/pull/32）
 
 ## 作業ログ
 
