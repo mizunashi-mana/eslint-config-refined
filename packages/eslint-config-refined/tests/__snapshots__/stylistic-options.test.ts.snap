@@ -1530,7 +1530,7 @@ exports[`common ruleSet with custom stylistic options > should apply correct rul
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },

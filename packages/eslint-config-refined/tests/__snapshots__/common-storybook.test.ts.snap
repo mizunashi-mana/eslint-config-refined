@@ -1530,7 +1530,7 @@ exports[`common + storybook ruleSets > should apply correct rules for source fil
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },
@@ -3350,7 +3350,7 @@ exports[`common + storybook ruleSets > should apply correct rules for story file
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },

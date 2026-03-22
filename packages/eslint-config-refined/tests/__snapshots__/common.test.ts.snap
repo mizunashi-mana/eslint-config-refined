@@ -1530,7 +1530,7 @@ exports[`common ruleSet > should apply correct rules for config files 1`] = `
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },
@@ -3347,7 +3347,7 @@ exports[`common ruleSet > should apply correct rules for entrypoint files 1`] = 
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },
@@ -5164,7 +5164,7 @@ exports[`common ruleSet > should apply correct rules for source files 1`] = `
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },
@@ -6981,7 +6981,7 @@ exports[`common ruleSet > should apply correct rules for test files 1`] = `
             "group": [
               "../",
             ],
-            "message": "Use absolute paths starting with @",
+            "message": "Use absolute paths",
           },
         ],
       },
