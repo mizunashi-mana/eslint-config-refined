@@ -42,18 +42,43 @@ allowed-tools: Read, Edit, "Bash(npm install)", "Bash(git log*)", "Bash(git chec
 
 eslint-plugin-promise のバージョンを更新した場合は、`packages/eslint-config-refined/package.json` の `dependencies` にある `@mizunashi_mana/eslint-plugin-promise` のバージョン指定も `^{新バージョン}` に更新する。
 
-### 6. package-lock.json を更新
+### 7. CHANGELOG.md を更新
+
+対象パッケージの `CHANGELOG.md` を更新する。手順 3 で取得した変更履歴を元に、新しいバージョンのセクションを既存の最新セクションの前に追加する。
+
+フォーマット（[Keep a Changelog](https://keepachangelog.com/) 準拠）:
+
+```markdown
+## [{新バージョン}] - {YYYY-MM-DD}
+
+### Added
+- 新機能の説明
+
+### Changed
+- 変更内容の説明
+
+### Fixed
+- 修正内容の説明
+```
+
+- 日付は今日の日付を使用する
+- カテゴリ（Added / Changed / Fixed / Removed など）は変更内容に応じて適切に選択する
+- 該当しないカテゴリは省略する
+- 各項目は簡潔に、ユーザーが理解しやすい粒度で記載する
+- CHANGELOG の記載は英語で行う
+
+### 8. package-lock.json を更新
 
 `npm install` を実行し、`package-lock.json` に反映する。
 
-### 7. コミット
+### 9. コミット
 
 変更をコミットする。メッセージ: `{パッケージ名} のバージョンを {新バージョン} に更新`
 
-### 8. PR を作成
+### 10. PR を作成
 
 `/autodev-create-pr` スキルを使って PR を作成する。
 
-### 9. 結果を報告
+### 11. 結果を報告
 
 更新前後のバージョンと PR の URL をユーザーに伝える。

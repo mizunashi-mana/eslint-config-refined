@@ -21,7 +21,7 @@
 | パッケージ | npm パッケージ名 | 役割 |
 |---|---|---|
 | `packages/eslint-config-refined` | `@mizunashi_mana/eslint-config-refined` | メインの共有設定。config 生成ユーティリティと各種ルール設定を提供 |
-| `packages/eslint-plugin-promise` | `@mizunashi_mana/eslint-plugin-promise` | eslint-plugin-promise の ESLint v10 用書き直し |
+| `packages/eslint-plugin-promise` | `@mizunashi_mana/eslint-plugin-promise` | eslint-plugin-promise の ESLint v10 用書き直し（12ルール） |
 
 ### eslint-config-refined の内部構成
 
