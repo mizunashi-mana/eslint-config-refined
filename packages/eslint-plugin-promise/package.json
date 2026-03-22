@@ -1,6 +1,6 @@
 {
   "name": "@mizunashi_mana/eslint-plugin-promise",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "ESLint plugin for Promise best practices (ESLint v10)",
   "license": "(Apache-2.0 OR MPL-2.0)",
   "author": "mizunashi-mana",
